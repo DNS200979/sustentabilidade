@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano de Propriedade Intelectual: ERP Carbono</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Warm Neutrals with Tech & Earth Accents (Stone, Teal, Indigo, Amber) -->
+    <!-- Application Structure Plan: A tabbed dashboard layout dividing the complex IP strategy into four consumable steps: "A Invenção" (Core concepts), "O Processo" (Technical workflow mapped to patentable steps), "Blindagem Legal" (Patent vs Copyright comparison with charts), and "Roadmap & Negócios" (Timeline and strategic advantage). This progressive disclosure prevents cognitive overload while presenting legal and technical text interactively. -->
+    <!-- Visualization & Content Choices: 
+         1. IP Portfolio Breakdown -> Doughnut Chart (Chart.js) -> Compare protection scopes -> Visualizes abstract legal concepts.
+         2. Timeline -> Horizontal Bar Chart (Chart.js, floating bars) -> Show project roadmap -> Clarifies concurrent execution phases.
+         3. Technical Flow -> HTML/CSS interactive Flexbox map -> Shows the 'State of the Art' vs 'Our Solution' -> Explains the patentable method.
+         (NO SVG/Mermaid used, all built with Canvas and DOM elements). -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        
+        .tab-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .tab-btn.active {
+            border-bottom: 3px solid #0f766e;
+            color: #0f766e;
+            background-color: #f0fdfa;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .flow-node {
+            transition: transform 0.2s;
+        }
+        .flow-node:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-800 font-sans min-h-screen flex flex-col selection:bg-teal-200 selection:text-teal-900">
+
+    <header class="bg-white shadow-sm sticky top-0 z-50 border-b border-stone-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row justify-between items-center py-4">
+                <div class="flex items-center mb-4 sm:mb-0">
+                    <span class="text-3xl text-teal-700 mr-3" aria-hidden="true">&#9851;</span>
+                    <div>
+                        <h1 class="text-xl font-bold text-stone-900 leading-tight">IP Playbook</h1>
+                        <p class="text-xs text-stone-500 uppercase tracking-widest font-semibold">ERP Compliance SBCE</p>
+                    </div>
+                </div>
+                <nav class="flex space-x-1 sm:space-x-2 overflow-x-auto w-full sm:w-auto pb-2 sm:pb-0" id="main-nav">
+                    <button onclick="switchTab('invencao')" id="btn-invencao" class="tab-btn active px-4 py-2 text-sm font-semibold text-stone-600 rounded-t-lg whitespace-nowrap">A Invenção</button>
+                    <button onclick="switchTab('processo')" id="btn-processo" class="tab-btn px-4 py-2 text-sm font-semibold text-stone-600 rounded-t-lg whitespace-nowrap">O Processo</button>
+                    <button onclick="switchTab('legal')" id="btn-legal" class="tab-btn px-4 py-2 text-sm font-semibold text-stone-600 rounded-t-lg whitespace-nowrap">Blindagem Legal</button>
+                    <button onclick="switchTab('roadmap')" id="btn-roadmap" class="tab-btn px-4 py-2 text-sm font-semibold text-stone-600 rounded-t-lg whitespace-nowrap">Roadmap</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <section id="view-invencao" class="fade-in block">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-extrabold text-stone-900 mb-4">Identificação do Objeto Patenteável</h2>
+                <p class="text-lg text-stone-600">
+                    Nesta seção, isolamos as inovações lógicas do ERP de Carbono que possuem o efeito técnico novo necessário para uma patente. Não patenteamos o código, mas sim o <strong>método processual</strong> que resolve o problema de conformidade com a Lei nº 15.042/2024. Explore os três pilares centrais da nossa invenção abaixo.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-200 hover:shadow-md transition-shadow cursor-pointer group" onclick="toggleDetails('detalhe-conciliacao')">
+                    <div class="w-12 h-12 bg-teal-100 text-teal-700 rounded-lg flex items-center justify-center text-2xl mb-4 group-hover:bg-teal-600 group-hover:text-white transition-colors">&#9881;</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">Algoritmo de Conciliação Preditiva</h3>
+                    <p class="text-sm text-stone-600 mb-4">Cruza dados de emissão em tempo real com o PNA para prever necessidades de compra.</p>
+                    <button class="text-teal-600 text-sm font-bold flex items-center">Explorar Método <span class="ml-1">&#8594;</span></button>
+                    
+                    <div id="detalhe-conciliacao" class="hidden mt-4 p-4 bg-stone-50 rounded-lg border border-stone-200 text-sm text-stone-700">
+                        <strong>Efeito Técnico:</strong> Antecipa o fechamento do balanço de carbono antes do período de compromisso, atuando como um "Radar de Deficit" dinâmico baseado nos limites (cap) impostos pelo Estado.
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-200 hover:shadow-md transition-shadow cursor-pointer group" onclick="toggleDetails('detalhe-verificacao')">
+                    <div class="w-12 h-12 bg-indigo-100 text-indigo-700 rounded-lg flex items-center justify-center text-2xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors">&#128274;</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">Protocolo Anti-Double-Counting</h3>
+                    <p class="text-sm text-stone-600 mb-4">Validação de dados de sensores industriais (IoT) convertidos em inventário GEE com SHA-256.</p>
+                    <button class="text-indigo-600 text-sm font-bold flex items-center">Explorar Método <span class="ml-1">&#8594;</span></button>
+                    
+                    <div id="detalhe-verificacao" class="hidden mt-4 p-4 bg-stone-50 rounded-lg border border-stone-200 text-sm text-stone-700">
+                        <strong>Efeito Técnico:</strong> Garante que um Certificado (CRVE) não seja contabilizado duas vezes. A arquitetura de hashing cria uma trilha de auditoria imutável entre a fonte sensoriada e o Registro Central.
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-200 hover:shadow-md transition-shadow cursor-pointer group" onclick="toggleDetails('detalhe-wallet')">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-lg flex items-center justify-center text-2xl mb-4 group-hover:bg-amber-600 group-hover:text-white transition-colors">&#128188;</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-2">Simulação de Ativos Mobiliários</h3>
+                    <p class="text-sm text-stone-600 mb-4">Wallet que gerencia a natureza jurídica distinta entre CBE e CRVE, automatizando a conversão tributária.</p>
+                    <button class="text-amber-600 text-sm font-bold flex items-center">Explorar Método <span class="ml-1">&#8594;</span></button>
+                    
+                    <div id="detalhe-wallet" class="hidden mt-4 p-4 bg-stone-50 rounded-lg border border-stone-200 text-sm text-stone-700">
+                        <strong>Efeito Técnico:</strong> Traduz instantaneamente um passivo ambiental em operação financeira/mobiliária regulada, segregando ativos baseados na legislação vigente no ato da transação.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="view-processo" class="hidden fade-in">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-extrabold text-stone-900 mb-4">Detalhamento Técnico do Processo</h2>
+                <p class="text-lg text-stone-600">
+                    Para o pedido de patente, descrevemos o "Estado da Arte" e como o nosso sistema o supera. A visualização abaixo mapeia o fluxo informacional do ERP, evidenciando como a nossa invenção atua como um <strong>motor de conformidade regulatória autônomo</strong> integrado ao SBCE, muito além de uma simples calculadora.
+                </p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-stone-200 p-6 sm:p-10">
+                <div class="flex flex-col md:flex-row justify-between items-stretch gap-6">
+                    
+                    <div class="flex-1 bg-stone-50 p-6 rounded-xl border-l-4 border-stone-300 flow-node">
+                        <div class="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Passo 1</div>
+                        <h4 class="text-lg font-bold text-stone-800 mb-2 flex items-center"><span class="text-xl mr-2">&#128229;</span> Módulo de Ingestão</h4>
+                        <p class="text-sm text-stone-600">Coleta automatizada de dados operacionais cobrindo Escopos 1, 2 e 3 a partir dos sistemas da empresa.</p>
+                    </div>
+
+                    <div class="hidden md:flex items-center justify-center text-3xl text-stone-300 font-light">&#10142;</div>
+                    <div class="md:hidden flex justify-center text-3xl text-stone-300 font-light my-2">&#11015;</div>
+
+                    <div class="flex-1 bg-stone-50 p-6 rounded-xl border-l-4 border-indigo-500 flow-node">
+                        <div class="text-xs font-bold text-indigo-500 uppercase tracking-wider mb-2">Passo 2</div>
+                        <h4 class="text-lg font-bold text-stone-800 mb-2 flex items-center"><span class="text-xl mr-2">&#9878;</span> Motor de Cálculo Normativo</h4>
+                        <p class="text-sm text-stone-600">Aplicação dinâmica das regras da Lei 15.042 (ex: processamento de regras de isenção de agro primário vs indústria).</p>
+                    </div>
+
+                    <div class="hidden md:flex items-center justify-center text-3xl text-stone-300 font-light">&#10142;</div>
+                    <div class="md:hidden flex justify-center text-3xl text-stone-300 font-light my-2">&#11015;</div>
+
+                    <div class="flex-1 bg-teal-50 p-6 rounded-xl border-l-4 border-teal-500 shadow-sm relative overflow-hidden flow-node">
+                        <div class="absolute -right-4 -top-4 text-6xl text-teal-100 opacity-50">&#9733;</div>
+                        <div class="text-xs font-bold text-teal-600 uppercase tracking-wider mb-2 relative z-10">Passo 3 (O Coração)</div>
+                        <h4 class="text-lg font-bold text-teal-900 mb-3 relative z-10 flex items-center"><span class="text-xl mr-2">&#128200;</span> Inteligência de Mercado</h4>
+                        
+                        <div class="space-y-3 relative z-10 mt-4">
+                            <div class="bg-white bg-opacity-70 p-3 rounded border border-teal-200">
+                                <strong class="text-xs text-red-700 block mb-1">DEVEDOR (Excedente)</strong>
+                                <span class="text-xs text-stone-700">Identifica Gap &rarr; Consulta Liquidez (CRVEs) &rarr; Sugere Ordem Compra.</span>
+                            </div>
+                            <div class="bg-white bg-opacity-70 p-3 rounded border border-teal-200">
+                                <strong class="text-xs text-green-700 block mb-1">CREDOR (Projeto)</strong>
+                                <span class="text-xs text-stone-700">Monitora Redução &rarr; Gera Doc. Verificação &rarr; Tokeniza CRVE para Oferta.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="view-legal" class="hidden fade-in">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-extrabold text-stone-900 mb-4">Estratégia de Blindagem Legal</h2>
+                <p class="text-lg text-stone-600">
+                    A proteção ideal combina múltiplas frentes. A Patente protege o método e proíbe concorrentes de replicarem a lógica do sistema. O Direito Autoral protege o código escrito contra pirataria direta. O Segredo de Negócio protege algoritmos de predição financeira no servidor. Explore as reivindicações e a composição do nosso portfólio.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+                
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200">
+                    <h3 class="text-xl font-bold text-stone-800 mb-6 flex items-center border-b pb-3">
+                        <span class="text-2xl mr-2 text-indigo-600">&#9878;</span> Estrutura das Reivindicações (Claims)
+                    </h3>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-stone-50 p-5 rounded-lg border-l-4 border-indigo-600">
+                            <span class="inline-block px-2 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded mb-2">Reivindicação 1 (Independente)</span>
+                            <p class="text-sm text-stone-700 font-medium leading-relaxed font-serif italic">
+                                "Método implementado por computador para gestão de ativos de carbono em mercados regulados, caracterizado por monitorar fontes de emissão em tempo real, calcular o diferencial em relação a cotas outorgadas (CBE) e executar a conciliação automática com certificados de redução (CRVE) via API governamental."
+                            </p>
+                        </div>
+
+                        <div class="bg-stone-50 p-5 rounded-lg border-l-4 border-stone-400">
+                            <span class="inline-block px-2 py-1 bg-stone-200 text-stone-800 text-xs font-bold rounded mb-2">Reivindicação 2 (Dependente)</span>
+                            <p class="text-sm text-stone-700 leading-relaxed font-serif italic">
+                                "O método da reivindicação 1, onde a validade jurídica dos relatórios é assegurada por um processo de hashing SHA-256 encadeado a partir da origem do dado bruto."
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200">
+                    <h3 class="text-xl font-bold text-stone-800 mb-2 text-center">Composição do Portfólio de PI</h3>
+                    <p class="text-sm text-stone-500 text-center mb-6">Distribuição estratégica dos mecanismos de proteção intelectual.</p>
+                    
+                    <div class="chart-container" style="height: 280px;">
+                        <canvas id="ipPortfolioChart"></canvas>
+                    </div>
+
+                    <div class="mt-6 space-y-3">
+                        <div class="flex justify-between items-center text-sm border-b border-stone-100 pb-2">
+                            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-teal-600 mr-2"></span> Patente (INPI)</span>
+                            <span class="text-stone-500 font-medium">Método Processual</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm border-b border-stone-100 pb-2">
+                            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-indigo-500 mr-2"></span> Copyright (Registro de Software)</span>
+                            <span class="text-stone-500 font-medium">Código-Fonte (50 anos)</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm">
+                            <span class="flex items-center"><span class="w-3 h-3 rounded-full bg-amber-500 mr-2"></span> Trade Secret</span>
+                            <span class="text-stone-500 font-medium">Modelos de Predição (SaaS back-end)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="view-roadmap" class="hidden fade-in">
+            <div class="mb-10 text-center max-w-3xl mx-auto">
+                <h2 class="text-3xl font-extrabold text-stone-900 mb-4">Cronograma de Execução e Modelo de Negócios</h2>
+                <p class="text-lg text-stone-600">
+                    O tempo é crítico na propriedade intelectual. O roadmap abaixo ilustra a linha do tempo desde a redação até o exame final da patente. Ao patentear o processo, criamos uma forte barreira de entrada contra gigantes de tecnologia (SAP/TOTVS). Eles terão o dado, mas nós deteremos a <strong>licença do método</strong> de conformidade.
+                </p>
+            </div>
+
+            <div class="bg-white p-6 sm:p-10 rounded-2xl shadow-sm border border-stone-200 mb-8">
+                <h3 class="text-xl font-bold text-stone-800 mb-6 flex items-center">
+                    <span class="text-2xl mr-2 text-teal-600">&#128197;</span> Timeline do Pedido (Meses 1 a 24+)
+                </h3>
+                
+                <div class="chart-container">
+                    <canvas id="timelineChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-stone-900 text-stone-100 rounded-2xl p-8 relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 text-9xl opacity-10 font-serif">&#10026;</div>
+                <h3 class="text-2xl font-bold mb-4 text-teal-400">Vantagem Competitiva: O Fosso Legal</h3>
+                <p class="text-lg text-stone-300 leading-relaxed mb-6">
+                    Por que patentear? Porque o mercado de ERPs é dominado por gigantes de infraestrutura de TI. Ao transformar a lógica da <strong>Lei nº 15.042/2024</strong> em um algoritmo protegido, mudamos a regra do jogo: o cliente pode manter o seu ERP legado para finanças básicas, mas dependerá da nossa plataforma licenciada para realizar a conciliação legal de créditos de carbono no Registro Central.
+                </p>
+                <div class="bg-stone-800 p-4 rounded-lg border border-stone-700 text-sm font-medium text-stone-400">
+                    &#9888; Aviso Legal: Este plano deve ser validado por um advogado especializado em Propriedade Intelectual antes de qualquer submissão oficial ao INPI.
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-stone-100 py-8 text-center text-stone-500 text-sm border-t border-stone-200 mt-auto">
+        <p>Desenvolvido para análise estratégica do ERP de Carbono (Lei nº 15.042/2024).</p>
+        <p class="mt-1">Interface interativa de planejamento e conformidade.</p>
+    </footer>
+
+    <script>
+        // State Management for Tabs
+        function switchTab(tabId) {
+            // Hide all sections
+            const sections = ['invencao', 'processo', 'legal', 'roadmap'];
+            sections.forEach(id => {
+                document.getElementById('view-' + id).classList.add('hidden');
+                document.getElementById('btn-' + id).classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById('view-' + tabId).classList.remove('hidden');
+            document.getElementById('btn-' + tabId).classList.add('active');
+        }
+
+        // Interaction for the core concepts cards
+        function toggleDetails(elementId) {
+            const el = document.getElementById(elementId);
+            if (el.classList.contains('hidden')) {
+                el.classList.remove('hidden');
+                el.classList.add('fade-in');
+            } else {
+                el.classList.add('hidden');
+                el.classList.remove('fade-in');
+            }
+        }
+
+        // Initialize Charts when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // Chart 1: Doughnut Chart for IP Portfolio (View 3)
+            const ctxPortfolio = document.getElementById('ipPortfolioChart').getContext('2d');
+            new Chart(ctxPortfolio, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Patente (Método)', 'Copyright (Código)', 'Trade Secret (Predição)'],
+                    datasets: [{
+                        data: [50, 30, 20],
+                        backgroundColor: [
+                            '#0f766e', // Teal 700
+                            '#6366f1', // Indigo 500
+                            '#f59e0b'  // Amber 500
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#ffffff',
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '65%',
+                    plugins: {
+                        legend: {
+                            display: false // Using custom HTML legend below the chart
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.label + ': ' + context.parsed + '% da estratégia';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Chart 2: Timeline Bar Chart (View 4)
+            // Using a floating bar approach to create a Gantt-like timeline chart
+            const ctxTimeline = document.getElementById('timelineChart').getContext('2d');
+            new Chart(ctxTimeline, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        '1. Redação do Relatório/Figuras', 
+                        '2. Protocolo do Pedido (PI)', 
+                        '3. Registro da Marca', 
+                        '4. Registro do Software', 
+                        '5. Exame Técnico (Acompanhamento)'
+                    ],
+                    datasets: [{
+                        label: 'Duração Prevista (Meses)',
+                        data: [
+                            [0, 1],   // Mês 1
+                            [1, 2],   // Mês 2
+                            [1, 2],   // Mês 2
+                            [2, 3],   // Mês 3
+                            [3, 24]   // 18-24 meses
+                        ],
+                        backgroundColor: [
+                            '#0d9488', // Teal 600
+                            '#0f766e', // Teal 700
+                            '#4f46e5', // Indigo 600
+                            '#6366f1', // Indigo 500
+                            '#cbd5e1'  // Slate 300
+                        ],
+                        borderRadius: 4,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const start = context.raw[0];
+                                    const end = context.raw[1];
+                                    if(end > 3) {
+                                        return ` Janela Estimada: Meses ${start} a ${end}+`;
+                                    }
+                                    return ` Execução: Mês ${end}`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Meses Corridos',
+                                font: { weight: 'bold' }
+                            },
+                            min: 0,
+                            max: 25,
+                            ticks: {
+                                stepSize: 3
+                            },
+                            grid: {
+                                color: '#f5f5f4' // stone-100
+                            }
+                        },
+                        y: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    family: 'sans-serif'
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
