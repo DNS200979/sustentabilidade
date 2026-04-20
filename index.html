@@ -26,22 +26,16 @@
             color: #0d9488;
             font-weight: bold;
         }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
-
-    <!-- Chosen Palette: Slate (50 for bg, 800 for text, 200 for borders) and Teal (600/500 for primary accents/calls to action), creating a professional, trustworthy, and calm B2B software aesthetic. -->
-    
-    <!-- Application Structure Plan: The SPA is structured as a B2B Dashboard/Pitch Deck hybrid. It uses a top navigation bar to switch between four key perspectives: Visão Geral (The Problem/Market), O Produto (The Solution/Features), Modelo de Receita (Interactive Financial Projections), and Roadmap (Execution Plan). This structure was chosen because it perfectly mirrors the logical flow of presenting a business plan to stakeholders or visualizing it for oneself, transitioning from the 'why' to the 'what', the 'how much', and finally the 'when'. -->
-    
-    <!-- Visualization & Content Choices: 
-    1. Market Overview -> Goal: Inform -> Viz: Doughnut Chart (Chart.js) -> Justification: Shows the proportional distribution of the target market (ICP) cleanly.
-    2. Compliance Dashboard Mockup -> Goal: Organize/Inform -> Viz: Half-Doughnut Gauge (Chart.js) -> Justification: Visually demonstrates the core value proposition (Risk Dashboard) of the proposed software.
-    3. Revenue Projection -> Goal: Change/Compare -> Viz: Stacked Bar Chart with Interactive Slider (Chart.js + JS) -> Justification: Allows the user to manipulate sales assumptions (clients/month) and instantly see the impact on MRR and Setup Revenue, creating high engagement.
-    4. Roadmap -> Goal: Organize -> Viz: HTML/Tailwind Grid Timeline -> Justification: Clearly delineates the 6-month execution strategy without complex external libraries.
-    Library/Method: Chart.js for all charts. Tailwind for all layouts and icons (using unicode/HTML elements). CONFIRMING NO SVG OR MERMAID USED. -->
-    
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 
     <header class="bg-white shadow-sm sticky top-0 z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -55,6 +49,8 @@
                     <button onclick="navigate('produto')" id="btn-produto" class="nav-btn text-slate-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16">O Produto</button>
                     <button onclick="navigate('receita')" id="btn-receita" class="nav-btn text-slate-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16">Modelo de Receita</button>
                     <button onclick="navigate('roadmap')" id="btn-roadmap" class="nav-btn text-slate-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16">Roadmap</button>
+                    <button onclick="navigate('concorrencia')" id="btn-concorrencia" class="nav-btn text-slate-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16">Concorrência</button>
+                    <a href="descritivo_geral_PN.html" target="_blank" class="text-teal-600 hover:text-teal-700 inline-flex items-center px-1 pt-1 text-sm font-bold transition-colors h-16">Ver Descritivo Completo &#8599;</a>
                 </div>
             </div>
         </div>
@@ -63,6 +59,7 @@
             <button onclick="navigate('produto')" id="btn-mob-produto" class="nav-btn whitespace-nowrap px-4 py-3 text-sm font-medium">O Produto</button>
             <button onclick="navigate('receita')" id="btn-mob-receita" class="nav-btn whitespace-nowrap px-4 py-3 text-sm font-medium">Receita</button>
             <button onclick="navigate('roadmap')" id="btn-mob-roadmap" class="nav-btn whitespace-nowrap px-4 py-3 text-sm font-medium">Roadmap</button>
+            <button onclick="navigate('concorrencia')" id="btn-mob-concorrencia" class="nav-btn whitespace-nowrap px-4 py-3 text-sm font-medium">Concorrência</button>
         </div>
     </header>
 
@@ -212,7 +209,6 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
                 <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
                     <div class="absolute top-0 left-0 w-2 h-full bg-slate-400"></div>
                     <div class="p-6 pl-8">
@@ -251,44 +247,58 @@
                         </ul>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
-                    <div class="absolute top-0 left-0 w-2 h-full bg-orange-500"></div>
-                    <div class="p-6 pl-8">
-                        <div class="text-sm font-bold text-orange-500 mb-1">MÊS 5</div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">Ajustes e Refinamento</h3>
-                        <ul class="text-sm text-slate-600 space-y-2">
-                            <li>&#8226; Correção de bugs críticos levantados pelos betas.</li>
-                            <li>&#8226; Otimização da interface de usuário (UI/UX).</li>
-                            <li>&#8226; Testes de stress nos relatórios oficiais.</li>
-                        </ul>
-                    </div>
-                </div>
+        <section id="view-concorrencia" class="hidden animate-fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Paisagem Competitiva</h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    O mercado brasileiro de carbono conta com players estabelecidos em consultoria e gigantes de tecnologia, mas carece de uma solução focada na integração ágil com o SBCE para o mid-market.
+                </p>
+            </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative lg:col-span-2">
-                    <div class="absolute top-0 left-0 w-2 h-full bg-teal-500"></div>
-                    <div class="p-6 pl-8">
-                        <div class="text-sm font-bold text-teal-500 mb-1">MÊS 6 EM DIANTE</div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-2">Lançamento Oficial & Go-To-Market</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-                            <div>
-                                <strong class="block text-sm text-slate-700">&#129309; Parcerias Estratégicas</strong>
-                                <span class="text-sm text-slate-600">Comissionamento para escritórios de advocacia e contabilidades que indicarem o software.</span>
-                            </div>
-                            <div>
-                                <strong class="block text-sm text-slate-700">&#128226; Marketing Educativo</strong>
-                                <span class="text-sm text-slate-600">Webinars: "Como evitar multas da 15.042" + Outbound focado em Diretores de Compliance.</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-800 text-white">
+                            <th class="p-4 font-semibold">Concorrente</th>
+                            <th class="p-4 font-semibold">Ponto Forte</th>
+                            <th class="p-4 font-semibold">Fraqueza para o SBCE</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 font-bold">WayCarbon</td>
+                            <td class="p-4 text-sm">Longa história no mercado voluntário.</td>
+                            <td class="p-4 text-sm text-slate-600">Modelo focado em grandes corporações globais.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 font-bold">Lastro Carbono</td>
+                            <td class="p-4 text-sm">Foco em conformidade com a Lei 15.042/2024.</td>
+                            <td class="p-4 text-sm text-slate-600">Ainda em fase de expansão de funcionalidades.</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 font-bold">ERPs Globais (SAP/Oracle)</td>
+                            <td class="p-4 text-sm">Presença consolidada nas empresas.</td>
+                            <td class="p-4 text-sm text-slate-600">Dificuldade em se adaptar às normas específicas do Serpro/SBCE.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
+            <div class="mt-8 p-6 bg-teal-50 border border-teal-200 rounded-xl">
+                <h3 class="font-bold text-teal-800 mb-2">Nosso Diferencial Estratégico</h3>
+                <p class="text-teal-700">
+                    Enquanto as consultorias focam em serviços e os ERPs globais em processos genéricos, nos posicionamos como <strong>"Especialistas em Integração SBCE"</strong>, focando em empresas de médio porte (10k a 25k tCO2e) que buscam automação e conformidade sem a complexidade de sistemas legados.
+                </p>
             </div>
         </section>
 
     </main>
 
     <script>
+        // Dados Gráficos
         const icpData = {
             labels: ['Médias Empresas (Principal alvo)', 'Grandes Corporações', 'Pequenas Empresas (Risco Menor)'],
             datasets: [{
@@ -306,20 +316,11 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: { position: 'bottom', labels: { font: { family: 'system-ui' } } },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return ' ' + context.label + ': ' + context.parsed + '%';
-                            }
-                        }
-                    }
+                    legend: { position: 'bottom' }
                 },
                 cutout: '65%'
             }
         };
-
-        let icpChartInst;
 
         const riskData = {
             labels: ['Risco Crítico', 'Atenção', 'Adequado (Compliance)'],
@@ -341,7 +342,6 @@
                 const angle = Math.PI + (1 / dataTotal * needleValue * Math.PI);
                 const cx = width / 2;
                 const cy = chart._metasets[0].data[0].y;
-
                 ctx.translate(cx, cy);
                 ctx.rotate(angle);
                 ctx.beginPath();
@@ -350,21 +350,15 @@
                 ctx.lineTo(0, 5);
                 ctx.fillStyle = '#1e293b';
                 ctx.fill();
-                
                 ctx.translate(-cx, -cy);
                 ctx.beginPath();
                 ctx.arc(cx, cy, 10, 0, 10);
                 ctx.fill();
                 ctx.restore();
-
                 ctx.font = 'bold 30px system-ui';
                 ctx.fillStyle = '#1e293b';
                 ctx.textAlign = 'center';
                 ctx.fillText(needleValue + '%', cx, cy + 40);
-                
-                ctx.font = '14px system-ui';
-                ctx.fillStyle = '#64748b';
-                ctx.fillText('Score de Conformidade', cx, cy + 65);
             }
         };
 
@@ -385,87 +379,25 @@
             plugins: [gaugeNeedle]
         };
 
-        let riskChartInst;
-
-        const revData = {
-            labels: ['Mês 1', 'Mês 2', 'Mês 3', 'Mês 4', 'Mês 5', 'Mês 6', 'Mês 7', 'Mês 8', 'Mês 9', 'Mês 10', 'Mês 11', 'Mês 12'],
-            datasets: [
-                {
-                    label: 'Receita Setup (Única)',
-                    data: [],
-                    backgroundColor: '#94a3b8',
-                    stack: 'Stack 0',
-                },
-                {
-                    label: 'MRR Acumulado (Mensalidade)',
-                    data: [],
-                    backgroundColor: '#0d9488',
-                    stack: 'Stack 0',
-                }
-            ]
-        };
-
-        const revConfig = {
-            type: 'bar',
-            data: revData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { position: 'bottom' },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let label = context.dataset.label || '';
-                                if (label) { label += ': '; }
-                                if (context.parsed.y !== null) {
-                                    label += new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed.y);
-                                }
-                                return label;
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: { stacked: true },
-                    y: { 
-                        stacked: true,
-                        ticks: {
-                            callback: function(value, index, values) {
-                                if (value >= 1000) { return 'R$ ' + value / 1000 + 'k'; }
-                                return 'R$ ' + value;
-                            }
-                        }
-                    }
-                }
-            }
-        };
-
-        let revChartInst;
+        let icpChartInst, riskChartInst, revChartInst;
 
         function calculateRevenue(clientsPerMonth) {
             const mrrTicket = 1500;
             const setupTicket = 3000;
-            let setupData = [];
-            let mrrData = [];
-            let currentClients = 0;
-
+            let setupData = [], mrrData = [], currentClients = 0;
             for (let i = 1; i <= 12; i++) {
                 setupData.push(clientsPerMonth * setupTicket);
                 currentClients += clientsPerMonth;
                 mrrData.push(currentClients * mrrTicket);
             }
-
             const m12Value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(currentClients * mrrTicket);
             document.getElementById('mrrM12').innerText = m12Value;
-
             return { setupData, mrrData };
         }
 
         function updateRevenueChart() {
             const val = parseInt(document.getElementById('clientsPerMonth').value);
             document.getElementById('clientsValue').innerText = val + (val === 1 ? ' cliente' : ' clientes');
-            
             const newData = calculateRevenue(val);
             if (revChartInst) {
                 revChartInst.data.datasets[0].data = newData.setupData;
@@ -474,20 +406,9 @@
             }
         }
 
-        window.onload = function() {
-            icpChartInst = new Chart(document.getElementById('icpChart'), icpConfig);
-            riskChartInst = new Chart(document.getElementById('riskGaugeChart'), riskConfig);
-            
-            const initialRevData = calculateRevenue(5);
-            revData.datasets[0].data = initialRevData.setupData;
-            revData.datasets[1].data = initialRevData.mrrData;
-            revChartInst = new Chart(document.getElementById('revenueChart'), revConfig);
-
-            document.getElementById('clientsPerMonth').addEventListener('input', updateRevenueChart);
-        };
-
+        // Script de Navegação Atualizado
         function navigate(viewId) {
-            const views = ['geral', 'produto', 'receita', 'roadmap'];
+            const views = ['geral', 'produto', 'receita', 'roadmap', 'concorrencia'];
             views.forEach(v => {
                 document.getElementById('view-' + v).classList.add('hidden');
                 document.getElementById('btn-' + v).classList.remove('active', 'border-b-4', 'border-teal-600', 'text-slate-900', 'font-bold');
@@ -495,13 +416,31 @@
             });
 
             document.getElementById('view-' + viewId).classList.remove('hidden');
-            
             const btnDesktop = document.getElementById('btn-' + viewId);
             btnDesktop.classList.add('active', 'border-b-4', 'border-teal-600', 'text-slate-900', 'font-bold');
-            
             const btnMobile = document.getElementById('btn-mob-' + viewId);
             btnMobile.classList.add('active', 'border-b-4', 'border-teal-600', 'text-slate-900', 'font-bold');
         }
+
+        window.onload = function() {
+            icpChartInst = new Chart(document.getElementById('icpChart'), icpConfig);
+            riskChartInst = new Chart(document.getElementById('riskGaugeChart'), riskConfig);
+            
+            const initialRevData = calculateRevenue(5);
+            const revConfig = {
+                type: 'bar',
+                data: {
+                    labels: ['Mês 1', 'Mês 2', 'Mês 3', 'Mês 4', 'Mês 5', 'Mês 6', 'Mês 7', 'Mês 8', 'Mês 9', 'Mês 10', 'Mês 11', 'Mês 12'],
+                    datasets: [
+                        { label: 'Receita Setup (Única)', data: initialRevData.setupData, backgroundColor: '#94a3b8', stack: 'Stack 0' },
+                        { label: 'MRR Acumulado (Mensalidade)', data: initialRevData.mrrData, backgroundColor: '#0d9488', stack: 'Stack 0' }
+                    ]
+                },
+                options: { responsive: true, maintainAspectRatio: false }
+            };
+            revChartInst = new Chart(document.getElementById('revenueChart'), revConfig);
+            document.getElementById('clientsPerMonth').addEventListener('input', updateRevenueChart);
+        };
 
         window.updateGauge = function(value) {
             if (riskChartInst) {
@@ -509,7 +448,6 @@
                 riskChartInst.update();
             }
         };
-
     </script>
 </body>
 </html>
