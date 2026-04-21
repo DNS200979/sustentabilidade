@@ -3,331 +3,438 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movimento Brasil Verde (MBV) - Painel Interativo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Movimento Brasil Verde (MBV) - Ecossistema Tecnológico</title>
     
-    <!-- Chosen Palette: Nature Neutrals (Stone-50 background, Emerald-600/700/800 accents, Stone-800 text) -->
-    <!-- Application Structure Plan: A single-page scrollable dashboard. The structure begins with a high-impact Hero section, followed by "Visão Geral" (Overview) for foundational facts. "Pilares de Atuação" uses an interactive Doughnut chart to let users explore the 4 main areas without overwhelming them with text. "Compromissos Globais" highlights international alignment, and "Esclarecimentos" uses an accordion to resolve name confusions cleanly. This flow guides the user from high-level understanding to specific details and context, prioritizing usability over the linear format of the original report. -->
-    <!-- Visualization & Content Choices: Overview -> Inform -> Stat Cards -> Hover effects -> HTML/Tailwind. Pillars -> Organize/Explore -> Doughnut Chart + Detail Panel -> Click interaction updates text -> Chart.js. Clarification -> Organize -> Accordion -> Click to expand -> Vanilla JS. NO SVG/Mermaid used to adhere to constraints, relying on CSS shapes and Unicode for icons. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- Tailwind CSS para Estilização -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Configuração da Paleta de Cores baseada no Logo -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mbv-dark': '#152417', /* Fundo Verde Escuro do Logo */
+                        'mbv-green': '#8cbd41', /* Verde Claro/Limão das folhas */
+                        'mbv-olive': '#b0a94e', /* Verde Oliva/Dourado das folhas */
+                        'mbv-surface': '#1e3321', /* Tom intermediário para cards */
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones Lucide -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
         }
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 300px;
-            max-height: 400px;
+        
+        /* Estilo para a recriação do Logo em CSS/SVG */
+        .logo-text {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            letter-spacing: 2px;
         }
-        @media (min-width: 768px) {
-            .chart-container {
-                height: 350px;
-            }
-        }
+
         .glass-panel {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
+
+        /* Animação suave para os cards */
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .accordion-content.open {
-            max-height: 500px;
+        .hover-lift:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-800 antialiased selection:bg-emerald-200 selection:text-emerald-900">
+<body class="bg-gray-50 text-gray-800 antialiased selection:bg-mbv-green selection:text-white">
 
-    <nav class="fixed w-full z-50 glass-panel shadow-sm transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
-                    <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-white font-bold shadow-lg">
-                        &#127811;
-                    </div>
-                    <span class="font-bold text-xl text-emerald-900 tracking-tight">MBV</span>
+    <!-- Navbar -->
+    <nav class="bg-mbv-dark text-white sticky top-0 z-50 shadow-lg border-b border-mbv-green/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Recriação do Logo -->
+                <div class="flex items-center flex-shrink-0 cursor-pointer">
+                    <svg width="60" height="50" viewBox="0 0 100 80" class="mr-2">
+                        <!-- Traço Verde Claro -->
+                        <path d="M 10 45 C 30 25, 60 20, 80 40 C 90 50, 85 65, 80 70" fill="none" stroke="#8cbd41" stroke-width="4" stroke-linecap="round"/>
+                        <!-- Traço Oliva -->
+                        <path d="M 25 50 C 40 35, 65 30, 85 60" fill="none" stroke="#b0a94e" stroke-width="4" stroke-linecap="round"/>
+                        <!-- Text MBV inside SVG for alignment -->
+                        <text x="50" y="65" font-family="Georgia, serif" font-style="italic" font-size="34" fill="white" text-anchor="middle" letter-spacing="2">MBV</text>
+                    </svg>
                 </div>
+                
+                <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-8">
-                    <a href="#visao-geral" class="text-stone-600 hover:text-emerald-600 font-medium transition-colors">Visão Geral</a>
-                    <a href="#pilares" class="text-stone-600 hover:text-emerald-600 font-medium transition-colors">Pilares</a>
-                    <a href="#compromissos" class="text-stone-600 hover:text-emerald-600 font-medium transition-colors">Compromissos</a>
-                    <a href="#esclarecimentos" class="text-stone-600 hover:text-emerald-600 font-medium transition-colors">Diferenciação</a>
+                    <a href="#cenario" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Cenário Regulatório</a>
+                    <a href="#erp" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Plataforma ERP</a>
+                    <a href="#mercado" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Mercado (CRVE)</a>
+                    <a href="#inovacao" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Inovação</a>
+                </div>
+
+                <!-- Botão CTA -->
+                <div class="hidden md:flex">
+                    <a href="#dashboard-demo" class="bg-mbv-green hover:bg-opacity-90 text-mbv-dark font-bold py-2 px-6 rounded-full transition-all">
+                        Acessar Portal
+                    </a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <header class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto flex flex-col items-center text-center">
-        <div class="inline-block p-4 rounded-full bg-emerald-100 mb-6 shadow-inner text-4xl">
-            &#127758;
+    <!-- Hero Section -->
+    <header class="relative bg-mbv-dark text-white overflow-hidden">
+        <!-- Elemento de fundo decorativo -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-mbv-green opacity-10 blur-3xl"></div>
+        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-mbv-olive opacity-10 blur-3xl"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
+            <div class="md:w-2/3">
+                <span class="text-mbv-green font-bold tracking-widest uppercase text-sm mb-4 block">Lei Federal nº 15.042/2024</span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                    O Ecossistema Tecnológico da <span class="text-transparent bg-clip-text bg-gradient-to-r from-mbv-green to-mbv-olive">Nova Economia Verde</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl leading-relaxed">
+                    A gestão inteligente de ativos e passivos de carbono. Transforme obrigações climáticas em liquidez financeira com a infraestrutura ERP do Movimento Brasil Verde.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#erp" class="bg-mbv-green text-mbv-dark text-center font-bold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-all">
+                        Conheça o ERP da lei 15.042
+                    </a>
+                    <a href="#cenario" class="border border-mbv-olive text-mbv-olive hover:bg-mbv-olive hover:text-mbv-dark text-center font-bold py-3 px-8 rounded-lg transition-all">
+                        Entenda o SBCE
+                    </a>
+                </div>
+            </div>
         </div>
-        <h1 class="text-4xl md:text-6xl font-extrabold text-stone-900 mb-6 tracking-tight">
-            Movimento <span class="text-emerald-600">Brasil Verde</span>
-        </h1>
-        <p class="text-lg md:text-xl text-stone-600 max-w-3xl leading-relaxed mb-10">
-            Uma organização brasileira pioneira focada em sustentabilidade, conservação ambiental e inovação sustentável, conectando a preservação ecológica ao desenvolvimento econômico.
-        </p>
-        <a href="#visao-geral" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1">
-            Explorar o Movimento &#8595;
-        </a>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 space-y-32">
-
-        <section id="visao-geral" class="scroll-mt-24">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-emerald-900 mb-4 flex items-center gap-3">
-                    <span class="text-2xl">&#128205;</span> Origem e Liderança
-                </h2>
-                <p class="text-stone-600 text-lg leading-relaxed max-w-4xl">
-                    Esta seção apresenta a fundação estrutural do Movimento Brasil Verde. Aqui você encontrará os dados centrais sobre quando a organização foi estabelecida, sua localização estratégica e a liderança visionária que a impulsiona, ajudando a contextualizar a força motriz por trás de suas ações no cenário nacional.
+    <!-- Cenário Regulatório -->
+    <section id="cenario" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <i data-lucide="scale" class="w-12 h-12 text-mbv-green mx-auto mb-4"></i>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">O Novo Paradigma Regulatório</h2>
+                <p class="text-gray-600">
+                    A promulgação da Lei 15.042 institui o SBCE, consolidando a transição de um modelo punitivo para uma arquitetura econômica baseada em <em>cap-and-trade</em>. A inação climática agora é um passivo tangível; a eficiência, um ativo financeiro.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition-shadow">
-                    <div class="text-emerald-600 text-4xl mb-4">&#128197;</div>
-                    <h3 class="text-sm font-bold text-stone-400 uppercase tracking-wider mb-2">Fundação</h3>
-                    <p class="text-2xl font-bold text-stone-800">Março de 2024</p>
-                    <p class="text-stone-500 mt-2 text-sm">Institucionalização como pessoa jurídica.</p>
-                </div>
-                
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-100 hover:shadow-md transition-shadow">
-                    <div class="text-emerald-600 text-4xl mb-4">&#127961;</div>
-                    <h3 class="text-sm font-bold text-stone-400 uppercase tracking-wider mb-2">Sede Oficial</h3>
-                    <p class="text-2xl font-bold text-stone-800">Palhoça, SC</p>
-                    <p class="text-stone-500 mt-2 text-sm">Base de operações no estado de Santa Catarina.</p>
-                </div>
-
-                <div class="bg-emerald-900 p-8 rounded-2xl shadow-md text-white hover:bg-emerald-800 transition-colors relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 text-7xl opacity-10">&#127941;</div>
-                    <h3 class="text-sm font-bold text-emerald-300 uppercase tracking-wider mb-2">Liderança Global</h3>
-                    <p class="text-2xl font-bold">Luciano Paiva</p>
-                    <p class="text-emerald-100 mt-2 text-sm">Fundador e CEO. Reconhecido no Top 100 Mais Influentes do Agronegócio (2026) por moldar o futuro verde do setor.</p>
-                </div>
-            </div>
-        </section>
-
-        <section id="pilares" class="scroll-mt-24">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-emerald-900 mb-4 flex items-center gap-3">
-                    <span class="text-2xl">&#127793;</span> Pilares de Atuação
-                </h2>
-                <p class="text-stone-600 text-lg leading-relaxed max-w-4xl">
-                    O escopo de atuação do MBV foca na "economia verde". Interaja com o gráfico abaixo clicando nas diferentes áreas para descobrir como a organização atua em frentes que vão desde a conservação de biomas até a aplicação de tecnologia para a sustentabilidade.
-                </p>
-            </div>
-
-            <div class="bg-white p-6 md:p-10 rounded-3xl shadow-sm border border-stone-200 flex flex-col lg:flex-row items-center gap-12">
-                <div class="w-full lg:w-1/2 flex justify-center">
-                    <div class="chart-container">
-                        <canvas id="pilaresChart"></canvas>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="space-y-6">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-10 h-10 rounded-full bg-mbv-green/20 flex items-center justify-center text-mbv-dark">
+                                <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold text-gray-900">Risco Crítico para Indústrias</h3>
+                            <p class="mt-2 text-gray-600">Emissores acima de 25.000 tCO2e anuais enfrentam carga regulatória total. Exceder o limite estabelecido significa passivo financeiro imediato nos balanços patrimoniais.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0 mt-1">
+                            <div class="w-10 h-10 rounded-full bg-mbv-olive/20 flex items-center justify-center text-mbv-dark">
+                                <i data-lucide="sprout" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-xl font-bold text-gray-900">Oportunidade para o Agronegócio</h3>
+                            <p class="mt-2 text-gray-600">Isento de tetos obrigatórios, o setor rural posiciona-se como o grande originador voluntário de ativos financeiros (CRVEs) através de práticas de regeneração.</p>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="w-full lg:w-1/2">
-                    <div id="pilar-detail-box" class="bg-stone-50 p-8 rounded-2xl border-l-4 border-emerald-500 transition-all duration-300">
-                        <div class="text-emerald-500 text-5xl mb-4" id="pilar-icon">&#128072;</div>
-                        <h3 class="text-2xl font-bold text-stone-800 mb-4" id="pilar-title">Selecione uma área</h3>
-                        <p class="text-stone-600 text-lg leading-relaxed" id="pilar-desc">
-                            Clique em uma das seções do gráfico ao lado para visualizar os detalhes sobre as principais frentes de trabalho do Movimento Brasil Verde.
+                <!-- Tabela Comparativa -->
+                <div class="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-200">
+                    <div class="bg-mbv-dark text-white px-6 py-4">
+                        <h4 class="font-bold text-lg">Mecânica Financeira (Lei 15.042/2024)</h4>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-sm text-left">
+                            <thead class="bg-gray-50 text-gray-700 font-semibold border-b">
+                                <tr>
+                                    <th class="px-6 py-3">Atributo</th>
+                                    <th class="px-6 py-3 text-red-600">Passivo (CBE)</th>
+                                    <th class="px-6 py-3 text-mbv-green">Ativo (CRVE)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium text-gray-900">Natureza</td>
+                                    <td class="px-6 py-4">Permissão de Emissão</td>
+                                    <td class="px-6 py-4">Crédito de Redução</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium text-gray-900">No Balanço</td>
+                                    <td class="px-6 py-4">Teto limitador</td>
+                                    <td class="px-6 py-4">Resultado positivo</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 font-medium text-gray-900">Origem</td>
+                                    <td class="px-6 py-4">PNA do Governo</td>
+                                    <td class="px-6 py-4">Projetos Validados</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ERP Section (MVB.html) -->
+    <section id="erp" class="py-20 bg-mbv-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-mbv-green font-bold tracking-widest uppercase text-sm mb-2 block">Motor de Conformidade</span>
+                <h2 class="text-3xl font-bold mb-4">A Centralidade do ERP da Lei 15.042</h2>
+                <p class="text-gray-400">
+                    O front-end operacional SaaS que se acopla aos sistemas legados (SAP, Oracle, TOTVS). Traduz a densidade normativa em ações estratégicas.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Card 1 -->
+                <div class="glass-panel p-8 rounded-2xl hover-lift">
+                    <i data-lucide="gauge" class="w-12 h-12 text-mbv-green mb-6"></i>
+                    <h3 class="text-xl font-bold mb-3">Dashboard de Risco</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Medidor interativo que sinaliza instantaneamente a posição de conformidade. Identifica zonas críticas (vermelho) ou de adequação (verde) para integração com o mercado financeiro.
+                    </p>
+                </div>
+                <!-- Card 2 -->
+                <div class="glass-panel p-8 rounded-2xl hover-lift">
+                    <i data-lucide="cpu" class="w-12 h-12 text-mbv-olive mb-6"></i>
+                    <h3 class="text-xl font-bold mb-3">Algoritmo Preditivo</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Ingestão de dados operacionais (IoT) e aplicação dinâmica de regras. O "Radar de Déficit" antecipa o fechamento do balanço, orientando compra ou tokenização no momento ideal.
+                    </p>
+                </div>
+                <!-- Card 3 -->
+                <div class="glass-panel p-8 rounded-2xl hover-lift">
+                    <i data-lucide="lock" class="w-12 h-12 text-mbv-green mb-6"></i>
+                    <h3 class="text-xl font-bold mb-3">Integração Gov/API</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Conexão bidirecional e imutável com o Serpro. Relatórios com hashing criptográfico SHA-256 (Anti-Double-Counting) garantem validade jurídica e rastreabilidade absoluta.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Interativo: Simulador Visual Simplificado -->
+            <div id="dashboard-demo" class="mt-16 bg-mbv-surface p-6 rounded-2xl border border-gray-700 max-w-4xl mx-auto">
+                <div class="flex items-center justify-between mb-6">
+                    <h4 class="font-bold text-lg flex items-center"><i data-lucide="activity" class="w-5 h-5 mr-2 text-mbv-green"></i> Status de Conformidade em Tempo Real</h4>
+                    <span class="text-xs text-gray-400 font-mono">ID: ERP-MBV-9901</span>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Projeção Anual de Emissão (tCO2e)</label>
+                        <input type="range" id="emissaoSlider" min="10000" max="40000" value="20000" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-mbv-green">
+                        <div class="flex justify-between text-xs text-gray-500 mt-2">
+                            <span>10k</span>
+                            <span>Alvo: 25k</span>
+                            <span>40k+</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-center justify-center p-6 bg-mbv-dark rounded-xl border border-gray-700" id="statusBox">
+                        <div class="text-4xl font-bold mb-2 transition-colors" id="valorVisor">20.000</div>
+                        <div class="text-sm font-semibold tracking-wide uppercase px-3 py-1 rounded-full bg-mbv-green/20 text-mbv-green border border-mbv-green/50 transition-colors" id="statusBadge">
+                            Faixa Segura
+                        </div>
+                        <p class="text-xs text-gray-400 mt-3 text-center" id="statusMsg">Relato obrigatório, sem déficit iminente.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inovação & MBV -->
+    <section id="inovacao" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="lg:w-1/2">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">O Movimento Brasil Verde (MBV) & Inovação</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Liderado por Luciano Paiva, o MBV não se adapta passivamente às regulações. Assumimos a vanguarda global na captura de carbono. Signatário do Pacto Global da ONU, o MBV une conservação rigorosa a motor econômico.
+                    </p>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-mbv-olive mb-6">
+                        <h4 class="font-bold text-lg text-gray-900 mb-2">Projeto das 2.000 Florestas</h4>
+                        <p class="text-sm text-gray-600">A estruturação de 2.000 áreas de 100 hectares cada, promovendo a reengenharia biológica dos solos para maximizar a geração de ativos (CRVEs).</p>
+                    </div>
+
+                    <div class="bg-mbv-dark text-white p-6 rounded-xl shadow-md relative overflow-hidden">
+                        <div class="absolute right-0 top-0 opacity-10 w-32 h-32 transform translate-x-8 -translate-y-8">
+                            <i data-lucide="flask-conical" class="w-full h-full"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-mbv-green mb-2 relative z-10">Tecnologia Neutrotan</h4>
+                        <p class="text-sm text-gray-300 relative z-10">
+                            Aumento logarítmico da biota terrestre. A inovação disruptiva reduz o tempo de maturação da floresta e absorção de carbono de <strong>35-40 anos para apenas 15 anos</strong>, alterando drasticamente o Valor Presente Líquido (VPL) dos projetos.
                         </p>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <section id="compromissos" class="scroll-mt-24 bg-emerald-50 rounded-3xl p-8 md:p-12 border border-emerald-100">
-            <div class="mb-10 text-center max-w-3xl mx-auto">
-                <h2 class="text-3xl font-bold text-emerald-900 mb-4 flex justify-center items-center gap-3">
-                    <span class="text-2xl">&#129309;</span> Compromissos e Pactos Globais
-                </h2>
-                <p class="text-stone-700 text-lg leading-relaxed">
-                    A missão do MBV transcende fronteiras. Esta seção detalha os alinhamentos da organização com diretrizes globais de sustentabilidade corporativa e social, evidenciando seu papel ativo nas metas da Organização das Nações Unidas (ONU).
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="bg-white p-8 rounded-2xl shadow-sm flex flex-col h-full border-t-4 border-blue-500">
-                    <div class="text-4xl mb-4">&#127758;</div>
-                    <h3 class="text-xl font-bold text-stone-800 mb-3">Pacto Global da ONU</h3>
-                    <p class="text-stone-600 flex-grow">
-                        O MBV é participante do <strong>UN Global Compact</strong>. Este vínculo atesta o compromisso da organização com os princípios universais relativos a:
-                    </p>
-                    <ul class="mt-4 space-y-2">
-                        <li class="flex items-center gap-2 text-sm text-stone-700"><span class="text-emerald-500">&#10004;</span> Direitos Humanos</li>
-                        <li class="flex items-center gap-2 text-sm text-stone-700"><span class="text-emerald-500">&#10004;</span> Relações de Trabalho</li>
-                        <li class="flex items-center gap-2 text-sm text-stone-700"><span class="text-emerald-500">&#10004;</span> Meio Ambiente</li>
-                        <li class="flex items-center gap-2 text-sm text-stone-700"><span class="text-emerald-500">&#10004;</span> Anticorrupção</li>
-                    </ul>
-                </div>
-
-                <div class="bg-white p-8 rounded-2xl shadow-sm flex flex-col h-full border-t-4 border-orange-500">
-                    <div class="text-4xl mb-4">&#127919;</div>
-                    <h3 class="text-xl font-bold text-stone-800 mb-3">Movimento ODS Santa Catarina</h3>
-                    <p class="text-stone-600 flex-grow">
-                        Como signatária estadual, a organização trabalha ativamente em nível regional para ajudar o Brasil a alcançar as ambiciosas metas globais estabelecidas pela ONU.
-                    </p>
-                    <div class="mt-4 p-3 bg-orange-50 rounded-lg text-orange-800 text-sm font-medium text-center">
-                        Compromisso com a Agenda 2030
+                
+                <div class="lg:w-1/2 w-full">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 hover-lift">
+                            <div class="text-4xl font-bold text-mbv-green mb-2">15</div>
+                            <div class="text-sm text-gray-500 font-medium">Anos para maturação<br>com Neutrotan</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 hover-lift">
+                            <div class="text-4xl font-bold text-mbv-olive mb-2">200k</div>
+                            <div class="text-sm text-gray-500 font-medium">Hectares totais no<br>projeto florestal</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 col-span-2 hover-lift">
+                            <i data-lucide="trending-up" class="w-8 h-8 text-blue-500 mx-auto mb-3"></i>
+                            <div class="text-xl font-bold text-gray-900 mb-1">Aceleração de VPL</div>
+                            <div class="text-sm text-gray-500">Transforma áreas degradadas em potências financeiras de alta liquidez.</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section id="esclarecimentos" class="scroll-mt-24">
-            <div class="mb-12">
-                <h2 class="text-3xl font-bold text-emerald-900 mb-4 flex items-center gap-3">
-                    <span class="text-2xl">&#128269;</span> Diferenciação de Nomes
-                </h2>
-                <p class="text-stone-600 text-lg leading-relaxed max-w-4xl">
-                    Devido à similaridade de nomenclaturas, é comum a confusão com outros grupos. Esta seção existe para delimitar claramente a identidade institucional do MBV, separando-o de organizações esportivas ou movimentos de viés estritamente político.
-                </p>
-            </div>                               
-                <div class="mt-8 p-6 bg-emerald-900 rounded-xl text-center shadow-md">
-                    <p class="text-white font-medium text-lg">
-                        O <strong class="text-emerald-300">Movimento Brasil Verde (MBV)</strong> tem um foco estritamente voltado para a <span class="border-b-2 border-emerald-400 pb-1">missão ecológica</span>, sustentabilidade corporativa, conservação de biomas e fomento de tecnologias limpas.
+    <!-- Parcerias & Certificações -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-16">Integração Institucional e Certificações</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <!-- IBAMA -->
+                <div class="border border-gray-200 rounded-xl p-6 text-center hover-lift bg-gray-50">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm mb-4">
+                        <i data-lucide="map" class="w-8 h-8 text-mbv-dark"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">IBAMA (SiCAR)</h3>
+                    <p class="text-sm text-gray-600">Adequação rigorosa e cruzamento de dados para geração de CRVEs com higidez fundiária garantida.</p>
+                </div>
+                <!-- INCRA -->
+                <div class="border border-gray-200 rounded-xl p-6 text-center hover-lift bg-gray-50">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm mb-4">
+                        <i data-lucide="users" class="w-8 h-8 text-mbv-dark"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">INCRA</h3>
+                    <p class="text-sm text-gray-600">Potencialização de assentamentos rurais em programas jurisdicionais REDD+ gerando renda e conformidade.</p>
+                </div>
+                <!-- IMA-SC -->
+                <div class="border border-gray-200 rounded-xl p-6 text-center hover-lift bg-gray-50">
+                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm mb-4">
+                        <i data-lucide="tent-tree" class="w-8 h-8 text-mbv-dark"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2">IMA-SC (FATMA)</h3>
+                    <p class="text-sm text-gray-600">Parcerias público-privadas em Unidades de Conservação gerando "ESG premium" e mitigação de risco.</p>
+                </div>
+            </div>
+
+            <div class="bg-mbv-dark rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+                <div class="p-10 md:w-1/2 flex flex-col justify-center border-b md:border-b-0 md:border-r border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="award" class="w-8 h-8 text-mbv-green mr-3"></i>
+                        <h3 class="text-2xl font-bold text-white">Selo Verde</h3>
+                    </div>
+                    <p class="text-gray-300 mb-6">O passaporte definitivo para vantagens ativas e passivas. Destranca benefícios como dedução no IRPJ, incentivos IPI/MOVER, IPTU Verde e hegemonia em licitações públicas (Lei 14.133/2021).</p>
+                    <ul class="text-sm text-gray-400 space-y-2">
+                        <li class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-mbv-olive"></i> Acesso a Crédito Subsidiado (BNDES/BRDE)</li>
+                        <li class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-mbv-olive"></i> Blindagem contra penalidades do SBCE</li>
+                    </ul>
+                </div>
+                <div class="p-10 md:w-1/2 flex flex-col justify-center bg-mbv-surface">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="link" class="w-8 h-8 text-mbv-olive mr-3"></i>
+                        <h3 class="text-2xl font-bold text-white">Link Verde</h3>
+                    </div>
+                    <p class="text-gray-300 mb-4">A infraestrutura de rastreabilidade. Utiliza Protocolo Anti-Double-Counting com hashing criptográfico (SHA-256) atrelando sensores IoT aos registros oficiais do Serpro.</p>
+                    <p class="text-sm text-gray-400 italic border-l-2 border-mbv-green pl-4">
+                        "Transforma promessas estéticas de sustentabilidade em garantias fiduciárias reconhecidas pelo mercado de capitais."
                     </p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-    </main>
-
-    <footer class="bg-stone-900 text-stone-400 py-8 text-center">
-        <p>&copy; 2026 Interativo SPA - Baseado em dados do Relatório Oficial.</p>
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <svg width="40" height="30" viewBox="0 0 100 80" class="mr-2 opacity-50 grayscale">
+                            <path d="M 10 45 C 30 25, 60 20, 80 40 C 90 50, 85 65, 80 70" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                            <path d="M 25 50 C 40 35, 65 30, 85 60" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                            <text x="50" y="65" font-family="Georgia, serif" font-style="italic" font-size="34" fill="#fff" text-anchor="middle" letter-spacing="2">MBV</text>
+                        </svg>
+                        <span class="text-white font-bold tracking-widest text-sm">MOVIMENTO BRASIL VERDE</span>
+                    </div>
+                    <p class="text-sm">Ecossistema de Inteligência e Conformidade Climática.<br>Sede: Palhoça, Santa Catarina, Brasil.</p>
+                </div>
+                <div class="md:text-right">
+                    <p class="text-sm mb-2">Ditando o custo do carbono para a economia globalizada.</p>
+                    <p class="text-xs opacity-50">&copy; 2026 Movimento Brasil Verde. Todos os direitos reservados à tecnologia ERP da Lei 15.042 e Neutrotan.</p>
+                </div>
+            </div>
+        </div>
     </footer>
 
+    <!-- Scripts da Página -->
     <script>
-        const pilaresData = [
-            {
-                title: "Conservação Ambiental",
-                icon: "&#127795;",
-                desc: "Promoção e execução de projetos focados exclusivamente na conservação e preservação de florestas nativas, protegendo a biodiversidade do nosso país.",
-                color: "#059669" 
-            },
-            {
-                title: "Economia Circular",
-                icon: "&#9851;",
-                desc: "Atuação robusta na recuperação de materiais, com destaque especial para a reciclagem e recuperação de plásticos, visando diminuir substancialmente o impacto ambiental do descarte incorreto.",
-                color: "#10B981" 
-            },
-            {
-                title: "Agronegócio Sustentável",
-                icon: "&#127806;",
-                desc: "Forte ligação com o setor agro. Trabalhamos com a intermediação e comércio de defensivos agrícolas, adubos e fertilizantes, incentivando práticas de correção de solo ambientalmente responsáveis e eficientes.",
-                color: "#34D399" 
-            },
-            {
-                title: "Tecnologia e Informação",
-                icon: "&#128187;",
-                desc: "Investimento em inovação através do desenvolvimento de programas de computador customizáveis e gestão de portais de informação (como o mbvoficial.com) para disseminar amplamente as pautas ecológicas.",
-                color: "#047857" 
-            }
-        ];
+        // Inicializar ícones Lucide
+        lucide.createIcons();
 
-        document.addEventListener("DOMContentLoaded", () => {
-            const ctx = document.getElementById('pilaresChart').getContext('2d');
+        // Lógica simples do Simulador de Dashboard
+        const slider = document.getElementById('emissaoSlider');
+        const visor = document.getElementById('valorVisor');
+        const badge = document.getElementById('statusBadge');
+        const box = document.getElementById('statusBox');
+        const msg = document.getElementById('statusMsg');
+
+        slider.addEventListener('input', function() {
+            const val = parseInt(this.value);
+            visor.textContent = val.toLocaleString('pt-BR');
+
+            // Reset classes
+            badge.className = 'text-sm font-semibold tracking-wide uppercase px-3 py-1 rounded-full border transition-colors';
             
-            const pilaresChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: pilaresData.map(p => p.title),
-                    datasets: [{
-                        data: [25, 25, 25, 25],
-                        backgroundColor: pilaresData.map(p => p.color),
-                        borderWidth: 0,
-                        hoverOffset: 15
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '65%',
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return ' ' + context.label + ' (Clique para detalhes)';
-                                }
-                            },
-                            backgroundColor: 'rgba(28, 25, 23, 0.9)',
-                            padding: 12,
-                            titleFont: { size: 14 },
-                            bodyFont: { size: 13 }
-                        }
-                    },
-                    onClick: (event, elements) => {
-                        if (elements && elements.length > 0) {
-                            const index = elements[0].index;
-                            updateDetailBox(index);
-                        }
-                    },
-                    onHover: (event, chartElement) => {
-                        event.native.target.style.cursor = chartElement[0] ? 'pointer' : 'default';
-                    }
-                }
-            });
-
-            function updateDetailBox(index) {
-                const data = pilaresData[index];
-                const titleEl = document.getElementById('pilar-title');
-                const descEl = document.getElementById('pilar-desc');
-                const iconEl = document.getElementById('pilar-icon');
-                const boxEl = document.getElementById('pilar-detail-box');
-
-                boxEl.style.opacity = 0;
-                
-                setTimeout(() => {
-                    titleEl.innerText = data.title;
-                    descEl.innerText = data.desc;
-                    iconEl.innerHTML = data.icon;
-                    boxEl.style.borderColor = data.color;
-                    
-                    boxEl.style.opacity = 1;
-                }, 200);
+            if (val < 25000) {
+                // Faixa Segura (Abaixo do limite de carga total)
+                badge.textContent = 'Faixa Segura';
+                badge.classList.add('bg-mbv-green/20', 'text-mbv-green', 'border-mbv-green/50');
+                visor.style.color = '#8cbd41'; // mbv-green
+                box.style.borderColor = 'rgba(140, 189, 65, 0.3)';
+                msg.textContent = 'Relato obrigatório. Sem obrigações compulsórias de redução imediata no SBCE.';
+            } else {
+                // Passivo Crítico (Acima de 25k)
+                badge.textContent = 'Déficit Regulatório';
+                badge.classList.add('bg-red-500/20', 'text-red-500', 'border-red-500/50');
+                visor.style.color = '#ef4444'; // red-500
+                box.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+                msg.textContent = 'Alerta: Emissões acima do limite. Sujeito a obrigações do sistema Cap-and-Trade. Ação recomendada via ERP.';
             }
-
-            const accordions = document.querySelectorAll('.accordion-btn');
-            accordions.forEach(acc => {
-                acc.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    const icon = this.querySelector('span:last-child');
-                    const panel = this.nextElementSibling;
-                    
-                    if (panel.classList.contains('open')) {
-                        panel.classList.remove('open');
-                        icon.innerHTML = '&#43;';
-                        icon.style.transform = 'rotate(0deg)';
-                    } else {
-                        accordions.forEach(otherAcc => {
-                            if(otherAcc !== this) {
-                                otherAcc.nextElementSibling.classList.remove('open');
-                                otherAcc.querySelector('span:last-child').innerHTML = '&#43;';
-                                otherAcc.querySelector('span:last-child').style.transform = 'rotate(0deg)';
-                            }
-                        });
-                        
-                        panel.classList.add('open');
-                        icon.innerHTML = '&#8722;';
-                        icon.style.transform = 'rotate(180deg)';
-                    }
-                });
-            });
         });
+        
+        // Trigger inicial
+        slider.dispatchEvent(new Event('input'));
     </script>
 </body>
 </html>
