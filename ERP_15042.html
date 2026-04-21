@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano de Negócios: ERP Compliance</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+        .nav-btn.active {
+            border-bottom: 4px solid #0d9488;
+            color: #0d9488;
+            font-weight: bold;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom scrollbar to avoid layout jumps */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+    
+    <!-- Chosen Palette: Slate and Teal/Emerald (Trust, Tech, Sustainability) -->
+    <!-- Application Structure Plan: A tabbed dashboard presentation for a business plan. It guides investors/stakeholders logically: Problem/Opportunity (Geral) -> Solution (Produto) -> Value Proposition & Upsell (Selo Verde) -> Monetization (Receita) -> Execution (Roadmap) -> Market (Concorrência). -->
+    <!-- Visualization & Content Choices: 
+         1. ICP Chart -> Doughnut -> Shows market targeting focus -> Chart.js.
+         2. Risk Dashboard Mockup -> Gauge Chart -> Demonstrates core product value -> Chart.js.
+         3. Revenue Simulator -> Range Input + Bar Chart -> Interactive financial projection -> Vanilla JS + Chart.js.
+         4. Selo Verde Section -> CSS Grid + Hover States -> Organizes tax/credit benefits.
+         NO SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <header class="bg-white shadow-sm sticky top-0 z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-extrabold text-teal-600 mr-2">&#9851;</span>
+                    <h1 class="text-xl font-bold text-slate-800">Compliance <span class="font-light">ERP</span></h1>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <button onclick="navigate('geral')" id="btn-geral" class="nav-btn active text-slate-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16">Visão Geral</button>
+                    <!-- Aba MBV adicionada ao lado de Visão Geral -->
+                    <button onclick="navigate('mbv')" id="btn-mbv" class="nav-btn text-slate-500 hover:text-emerald-700 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16 flex items-center gap-1"><span class="text-emerald-500">&#127758;</span> MBV</button>
+                    <button onclick="navigate('produto')" id="btn-produto" class="nav-btn text-slate-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16">O Produto</button>
+                    <!-- Nova aba Selo Verde -->
+                    <button onclick="navigate('selos')" id="btn-selos" class="nav-btn text-slate-500 hover:text-emerald-700 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16 flex items-center gap-1"><span class="text-emerald-500">&#10026;</span> Selo Verde</button>
+                    <button onclick="navigate('receita')" id="btn-receita" class="nav-btn text-slate-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16">Receita</button>
+                    <button onclick="navigate('roadmap')" id="btn-roadmap" class="nav-btn text-slate-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16">Roadmap</button>
+                    <button onclick="navigate('concorrencia')" id="btn-concorrencia" class="nav-btn text-slate-500 hover:text-slate-900 inline-flex items-center px-1 pt-1 text-sm font-medium transition-colors h-16">Concorrência</button>
+                    
+                    <!-- Link Externo Adicionado -->
+                    <div class="border-l border-slate-200 ml-4 pl-4 flex items-center space-x-4">
+                        <a href="descritivo_geral_PN.html" target="_blank" class="text-teal-600 hover:text-teal-800 text-sm font-bold transition-colors">Descritivo Completo &#8599;</a>
+                        <a href="processo_patente.html" target="_blank" class="text-indigo-600 hover:text-indigo-800 text-sm font-bold transition-colors">IP Playbook &#8599;</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Navegação Mobile -->
+        <div class="md:hidden flex overflow-x-auto bg-slate-100 border-t border-slate-200 hide-scrollbar items-center">
+            <button onclick="navigate('geral')" id="btn-mob-geral" class="nav-btn active whitespace-nowrap px-4 py-3 text-sm font-medium">Visão Geral</button>
+            <button onclick="navigate('mbv')" id="btn-mob-mbv" class="nav-btn whitespace-nowrap px-4 py-3 text-sm font-medium text-emerald-700">MBV</button>
+            <button onclick="navigate('produto')" id="btn-mob-produto" class="nav-btn whitespace-nowrap px-4 py-3 text-sm font-medium">O Produto</button>
+            <button onclick="navigate('selos')" id="btn-mob-selos" class="nav-btn whitespace-nowrap px-4 py-3 text-sm font-medium text-emerald-700">Selo Verde</button>
+            <button onclick="navigate('receita')" id="btn-mob-receita" class="nav-btn whitespace-nowrap px-4 py-3 text-sm font-medium">Receita</button>
+            <button onclick="navigate('roadmap')" id="btn-mob-roadmap" class="nav-btn whitespace-nowrap px-4 py-3 text-sm font-medium">Roadmap</button>
+            <button onclick="navigate('concorrencia')" id="btn-mob-concorrencia" class="nav-btn whitespace-nowrap px-4 py-3 text-sm font-medium">Concorrência</button>
+            <a href="descritivo_geral_PN.html" target="_blank" class="whitespace-nowrap px-4 py-3 text-sm font-bold text-teal-700 border-l border-slate-300 ml-2">Descritivo PN &#8599;</a>
+            <a href="processo_patente.html" target="_blank" class="whitespace-nowrap px-4 py-3 text-sm font-bold text-indigo-700 ml-1">IP Playbook &#8599;</a>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+        <!-- Secção: Visão Geral -->
+        <section id="view-geral" class="block animate-fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">A Oportunidade da Lei nº 15.042/2024</h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    Esta secção apresenta o cenário atual e a justificativa para o negócio. A sanção da nova lei gera uma necessidade imediata de adequação. Empresas que utilizam processos manuais estão sujeitas a riscos severos de autuação. O nosso plano é fornecer a "máquina de compliance" definitiva.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-semibold mb-4 border-b pb-2">&#9888; O Problema vs. A Solução</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-red-500 text-xl mr-3">&#10007;</span>
+                            <div>
+                                <strong class="block text-slate-800">Processos Manuais</strong>
+                                <span class="text-sm text-slate-500">Uso de planilhas descentralizadas e falta de rastreabilidade.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-red-500 text-xl mr-3">&#10007;</span>
+                            <div>
+                                <strong class="block text-slate-800">Risco de Multas</strong>
+                                <span class="text-sm text-slate-500">Incapacidade de gerar relatórios oficiais rapidamente numa auditoria.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start mt-6 pt-4 border-t border-slate-100">
+                            <span class="text-teal-600 text-xl mr-3">&#10003;</span>
+                            <div>
+                                <strong class="block text-slate-800">Automação de Compliance</strong>
+                                <span class="text-sm text-slate-500">Recolha de dados, relatórios nos formatos exigidos e trilha de auditoria imutável.</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start mt-4 pt-4 border-t border-slate-100">
+                            <span class="text-teal-600 text-xl mr-3">&#10003;</span>
+                            <div>
+                                <strong class="block text-slate-800">Integração com ERPs</strong>
+                                <span class="text-sm text-slate-500">Ampla compatibilidade com ERPs existentes no mercado (SAP, TOTVS).</span>
+                            </div>
+                        </li>
+                        <li class="flex items-start mt-4 pt-4 border-t border-slate-100">
+                            <span class="text-teal-600 text-xl mr-3">&#10003;</span>
+                            <div>
+                                <strong class="block text-slate-800">Selo Verde (link-verde)/strong>
+                                <span class="text-sm text-slate-500">Certificações com base em padrões de sustentabilidade para beneficios ambientais e fiscais.</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                    <h3 class="text-xl font-semibold mb-2 text-center">Perfil do Cliente Ideal (ICP)</h3>
+                    <p class="text-sm text-center text-slate-500 mb-4">Distribuição do mercado alvo por porte de empresa</p>
+                    <div class="chart-container">
+                        <canvas id="icpChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banner de Propriedade Intelectual movido para o final da Visão Geral -->
+            <div class="bg-indigo-50 border border-indigo-200 rounded-xl p-5 mt-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5 shadow-sm">
+                <div class="flex-1">
+                    <h3 class="text-indigo-800 font-bold text-lg flex items-center mb-2">
+                        <span class="text-2xl mr-2">&#128737;</span> Estratégia de Propriedade Intelectual
+                    </h3>
+                    <p class="text-sm text-indigo-700 leading-relaxed">
+                        Conheça a blindagem legal projetada para o ERP. O documento detalha a patenteabilidade do método de <strong>Conciliação Preditiva</strong>, a proteção do código-fonte via Copyright e a guarda dos algoritmos como Segredo de Negócio, criando um "fosso legal" (moat) defensável.
+                    </p>
+                </div>
+                <a href="processo_patente.html" target="_blank" class="shrink-0 inline-flex items-center justify-center px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-lg shadow transition-colors w-full lg:w-auto text-center">
+                    Ler IP Playbook &#8599;
+                </a>
+            </div>
+        </section>
+
+        <!-- NOVA SECÇÃO: MBV -->
+        <section id="view-mbv" class="hidden animate-fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-emerald-900 mb-4 flex items-center">
+                    <span class="text-3xl mr-3">&#127758;</span> Movimento Brasil Verde (MBV)
+                </h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    O ecossistema do nosso ERP atua em total sintonia com o <strong>Movimento Brasil Verde</strong>, uma organização pioneira com sede em Santa Catarina, focada em sustentabilidade corporativa, conservação ambiental e inovação tecnológica.
+                </p>
+            </div>
+
+            <!-- Destaque Liderança Luciano Paiva -->
+            <div class="bg-emerald-900 rounded-xl p-6 md:p-8 mb-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-md relative overflow-hidden">
+                <div class="absolute -right-10 -top-10 text-9xl opacity-10">&#127941;</div>
+                <div class="flex-1 relative z-10">
+                    <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider mb-1">Visão e Liderança</h3>
+                    <h4 class="text-2xl md:text-3xl font-bold text-white mb-3">Luciano Paiva</h4>
+                    <p class="text-emerald-100 text-sm md:text-base leading-relaxed max-w-4xl">
+                        Fundador e CEO do MBV. Destaca-se por conectar a preservação ecológica ao desenvolvimento econômico real, sendo reconhecido no seleto grupo dos <strong>Top 100 Mais Influentes do Agronegócio (2026)</strong> pela sua atuação determinante em moldar o futuro verde e sustentável do setor agropecuário brasileiro através da adoção de tecnologias limpas e práticas responsáveis.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                <!-- Resumo dos Pilares -->
+                <div class="bg-white p-8 rounded-xl shadow-sm border border-emerald-100 h-full flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-emerald-800 mb-4 border-b border-emerald-100 pb-2">Pilares de Atuação</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <span class="text-emerald-500 text-xl mr-3">&#127795;</span>
+                                <div>
+                                    <strong class="block text-slate-800">Conservação Ambiental</strong>
+                                    <span class="text-sm text-slate-600">Projetos de preservação de florestas nativas e biodiversidade no Brasil.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-emerald-500 text-xl mr-3">&#9851;</span>
+                                <div>
+                                    <strong class="block text-slate-800">Economia Circular</strong>
+                                    <span class="text-sm text-slate-600">Recuperação e reciclagem de materiais para reduzir o impacto ambiental.</span>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="text-emerald-500 text-xl mr-3">&#127806;</span>
+                                <div>
+                                    <strong class="block text-slate-800">Agronegócio Sustentável</strong>
+                                    <span class="text-sm text-slate-600">Práticas agrícolas responsáveis e adoção de tecnologias limpas.</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Compromissos e Link -->
+                <div class="bg-emerald-50 p-8 rounded-xl shadow-sm border border-emerald-200 h-full flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-emerald-900 mb-4">Compromissos Globais</h3>
+                        <p class="text-emerald-800 mb-4">
+                            A missão do MBV transcende o âmbito nacional, assumindo um forte alinhamento com as diretrizes de sustentabilidade da <strong>ONU</strong>:
+                        </p>
+                        <ul class="space-y-3 mb-6">
+                            <li class="flex items-center text-emerald-800 font-medium">
+                                <span class="mr-2 text-xl">&#129309;</span> Participante do Pacto Global da ONU
+                            </li>
+                            <li class="flex items-center text-emerald-800 font-medium">
+                                <span class="mr-2 text-xl">&#127919;</span> Signatário do Movimento ODS Santa Catarina
+                            </li>
+                        </ul>
+                        <p class="text-sm text-emerald-700 italic border-l-4 border-emerald-400 pl-3">
+                            A tecnologia do ERP de Carbono é o motor que capacita as empresas a gerarem dados fiáveis para alcançarem estas metas da Agenda 2030.
+                        </p>
+                    </div>
+                    
+                    <a href="MVB.html" target="_blank" class="mt-6 inline-flex items-center justify-center px-6 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg transition-all transform hover:-translate-y-1 w-full text-center">
+                        Explorar o Painel Completo do MBV &#8599;
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secção: O Produto -->
+        <section id="view-produto" class="hidden animate-fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">O Produto: Mais que gestão, segurança jurídica</h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    O sistema opera como um módulo SaaS acoplável a ERPs existentes (via API) ou de forma independente. O destaque é o Dashboard de Risco, que traduz dados complexos num semáforo de conformidade visual.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-3xl text-teal-600 mb-3">&#128203;</div>
+                    <h4 class="font-bold text-lg mb-2">Relatórios Oficiais</h4>
+                    <p class="text-sm text-slate-600">Exportação automática de XML e PDF nos formatos estritos exigidos pelos órgãos de fiscalização da Lei 15.042.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-3xl text-teal-600 mb-3">&#128274;</div>
+                    <h4 class="font-bold text-lg mb-2">Audit Trail</h4>
+                    <p class="text-sm text-slate-600">Registo imutável na base de dados de todas as ações, garantindo prova material para defesa jurídica e auditorias.</p>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="text-3xl text-teal-600 mb-3">&#128279;</div>
+                    <h4 class="font-bold text-lg mb-2">Integração Gov/API</h4>
+                    <p class="text-sm text-slate-600">Conectores nativos para envio de dados ao Registo Central e integração com o mercado financeiro de carbono.</p>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 rounded-2xl p-6 md:p-10 text-white shadow-lg">
+                <div class="text-center mb-6">
+                    <h3 class="text-2xl font-bold text-teal-400">Mockup Interativo: Dashboard de Risco</h3>
+                    <p class="text-slate-400 mt-2">Visão do CFO ao iniciar a sessão no sistema. O objetivo é manter a empresa fora da zona de autuação.</p>
+                </div>
+                <div class="bg-white rounded-xl p-4 mx-auto max-w-2xl shadow-inner">
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="riskGaugeChart"></canvas>
+                    </div>
+                    <div class="flex justify-center gap-4 mt-4">
+                        <button onclick="updateGauge(95)" class="px-4 py-2 bg-teal-100 text-teal-800 rounded font-medium hover:bg-teal-200 transition-colors">Simular Adequado</button>
+                        <button onclick="updateGauge(45)" class="px-4 py-2 bg-red-100 text-red-800 rounded font-medium hover:bg-red-200 transition-colors">Simular Risco</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NOVA SECÇÃO: Selos Verdes e Benefícios Fiscais -->
+        <section id="view-selos" class="hidden animate-fade-in">
+            <div class="mb-8 bg-emerald-50 border border-emerald-200 rounded-2xl p-8 shadow-sm">
+                <h2 class="text-3xl font-bold text-emerald-900 mb-4 flex items-center">
+                    <span class="text-3xl mr-3">&#10026;</span> O Valor do Dado: Conquistar o "Selo Verde"
+                </h2>
+                <p class="text-lg text-emerald-800 leading-relaxed mb-6">
+                    O nosso ERP Compliance não atua apenas na <strong>defesa</strong> (evitar multas da Lei 15.042/2024). É a ferramenta estratégica para o <strong>ataque</strong>: gerar as evidências irrefutáveis exigidas por auditorias independentes para a concessão de <strong>Certificações Ambientais (Selos Verdes e ISO 14001)</strong>.
+                </p>
+                <div class="mb-6">
+                    <a href="selo_verde.html" target="_blank" class="inline-flex items-center justify-center px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-lg shadow-sm transition-colors">
+                        Acessar Relatório de Selos Verdes e Incentivos Fiscais &#8599;
+                    </a>
+                </div>
+                <div class="flex flex-col md:flex-row items-center justify-center gap-4 bg-white p-4 rounded-xl border border-emerald-100 opacity-90">
+                    <div class="text-center px-4">
+                        <div class="text-2xl text-slate-700 font-bold">1. Dados do ERP</div>
+                        <div class="text-xs text-slate-500">Dados imutáveis gerados</div>
+                    </div>
+                    <div class="text-emerald-500 font-bold text-2xl hidden md:block">&#10230;</div>
+                    <div class="text-emerald-500 font-bold text-2xl md:hidden">&#10231;</div>
+                    <div class="text-center px-4">
+                        <div class="text-2xl text-emerald-600 font-bold">&#10003; Auditoria</div>
+                        <div class="text-xs text-slate-500">Aprovação facilitada</div>
+                    </div>
+                    <div class="text-emerald-500 font-bold text-2xl hidden md:block">&#10230;</div>
+                    <div class="text-emerald-500 font-bold text-2xl md:hidden">&#10231;</div>
+                    <div class="text-center px-4">
+                        <div class="text-2xl text-amber-500 font-bold">&#128176; Benefícios</div>
+                        <div class="text-xs text-slate-500">Retorno Financeiro (ROI)</div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-slate-800 mb-6 text-center">Vantagens Desbloqueadas pelo Sistema</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Benefícios Fiscais -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:-translate-y-1 transition-transform duration-300">
+                    <div class="h-2 bg-emerald-500 w-full"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="text-3xl mr-3">&#128181;</span>
+                            <h4 class="text-xl font-bold text-slate-800">Incentivos Fiscais</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 h-24">As empresas certificadas reduzem ativamente a sua carga tributária com laudos de sustentabilidade extraídos diretamente do ERP.</p>
+                        <ul class="space-y-3 border-t border-slate-100 pt-4">
+                            <li class="flex items-start text-sm">
+                                <span class="text-emerald-500 mr-2">&#10004;</span>
+                                <span><strong>Federal:</strong> Dedução de IRPJ (Lucro Real), redução via IPI Verde e suspensão REIDI (PIS/COFINS).</span>
+                            </li>
+                            <li class="flex items-start text-sm">
+                                <span class="text-emerald-500 mr-2">&#10004;</span>
+                                <span><strong>Estadual (SC):</strong> Benefícios nos programas de ICMS Ecológico e Sefaz.</span>
+                            </li>
+                            <li class="flex items-start text-sm">
+                                <span class="text-emerald-500 mr-2">&#10004;</span>
+                                <span><strong>Florianópolis:</strong> Acesso direto aos descontos (até 10%+) no <strong>IPTU Verde</strong>.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Crédito e Financiamento -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:-translate-y-1 transition-transform duration-300">
+                    <div class="h-2 bg-blue-500 w-full"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="text-3xl mr-3">&#128200;</span>
+                            <h4 class="text-xl font-bold text-slate-800">Acesso a Crédito</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 h-24">A transparência dos dados (Anti-Double-Counting) mitiga os riscos para os bancos, permitindo a captação de recursos muito mais baratos.</p>
+                        <ul class="space-y-3 border-t border-slate-100 pt-4">
+                            <li class="flex items-start text-sm">
+                                <span class="text-blue-500 mr-2">&#10004;</span>
+                                <span><strong>Green Bonds:</strong> Emissão de títulos verdes no mercado de capitais facilitada pelos relatórios do sistema.</span>
+                            </li>
+                            <li class="flex items-start text-sm">
+                                <span class="text-blue-500 mr-2">&#10004;</span>
+                                <span><strong>BNDES Fundo Clima:</strong> Acesso a taxas subsidiadas para modernização industrial.</span>
+                            </li>
+                            <li class="flex items-start text-sm">
+                                <span class="text-blue-500 mr-2">&#10004;</span>
+                                <span><strong>BRDE Sustentável (SC):</strong> Prazos alargados e carência diferenciada na Região Sul.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Competitividade / Licitações -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:-translate-y-1 transition-transform duration-300">
+                    <div class="h-2 bg-amber-500 w-full"></div>
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <span class="text-3xl mr-3">&#127974;</span>
+                            <h4 class="text-xl font-bold text-slate-800">Competitividade Pública</h4>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 h-24">A manutenção rigorosa da certificação através do ERP garante uma posição privilegiada em concursos e contratações governamentais.</p>
+                        <ul class="space-y-3 border-t border-slate-100 pt-4">
+                            <li class="flex items-start text-sm">
+                                <span class="text-amber-500 mr-2">&#10004;</span>
+                                <span><strong>Nova Lei de Licitações (14.133):</strong> A comprovação de "Selo Verde" atua como critério de desempate (Art. 60).</span>
+                            </li>
+                            <li class="flex items-start text-sm">
+                                <span class="text-amber-500 mr-2">&#10004;</span>
+                                <span><strong>Exigência Técnica:</strong> Cumprimento imediato quando os editais exigem qualidade ambiental inegociável.</span>
+                            </li>
+                            <li class="flex items-start text-sm">
+                                <span class="text-amber-500 mr-2">&#10004;</span>
+                                <span><strong>Remuneração Variável:</strong> Os dados do ERP comprovam a meta de eficiência para bónus contratuais.</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secção: Receita -->
+        <section id="view-receita" class="hidden animate-fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Modelo de Receita SaaS B2B</h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    A nossa estratégia financeira baseia-se na Receita Recorrente Mensal (MRR) combinada com taxas de implantação. Explore o simulador abaixo para entender o potencial de escala do negócio.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-4 bg-white p-6 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-center">
+                    <h3 class="text-xl font-bold mb-6 text-slate-800">Simulador de Crescimento</h3>
+                    
+                    <div class="mb-6">
+                        <label for="clientsPerMonth" class="block text-sm font-medium text-slate-700 mb-2">Novos Clientes por Mês</label>
+                        <input type="range" id="clientsPerMonth" min="1" max="50" value="5" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-teal-600">
+                        <div class="flex justify-between mt-2 text-sm text-slate-500 font-bold">
+                            <span id="clientsValue">5 clientes</span>
+                            <span>/ mês</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center border-b pb-2">
+                            <span class="text-sm text-slate-600">Ticket Médio MRR</span>
+                            <span class="font-bold text-slate-800">R$ 1.500</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b pb-2">
+                            <span class="text-sm text-slate-600">Taxa de Setup (Única)</span>
+                            <span class="font-bold text-slate-800">R$ 3.000</span>
+                        </div>
+                        <div class="flex justify-between items-center pt-2">
+                            <span class="text-lg font-bold text-slate-800">MRR no Mês 12</span>
+                            <span id="mrrM12" class="text-xl font-bold text-teal-600">R$ 90.000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-8 bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+                    <h3 class="text-xl font-semibold mb-4 text-center">Projeção de Faturação (12 Meses)</h3>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secção: Roadmap -->
+        <section id="view-roadmap" class="hidden animate-fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Plano de Ação: Roadmap de 6 Meses</h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    A janela de oportunidade regulatória exige velocidade. Este é o plano tático para levar o software para o mercado, estabelecendo parcerias estratégicas como principal motor de tração.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-slate-400"></div>
+                    <div class="p-6 pl-8">
+                        <div class="text-sm font-bold text-slate-400 mb-1">MÊS 1</div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Imersão Legal</h3>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li>&#8226; Consultoria técnica e mapeamento da Lei 15.042/2024.</li>
+                            <li>&#8226; Definição da arquitetura de dados obrigatória.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-indigo-600"></div>
+                    <div class="p-6 pl-8">
+                        <div class="text-sm font-bold text-indigo-600 mb-1">MÊS 1 - 6+</div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Blindagem de PI</h3>
+                        <ul class="text-sm text-slate-600 space-y-2 mb-4">
+                            <li>&#8226; Redação e protocolo da Patente (INPI).</li>
+                            <li>&#8226; Registo de Marca e Copyright.</li>
+                        </ul>
+                        <a href="processo_patente.html" target="_blank" class="text-indigo-600 hover:text-indigo-800 text-xs font-bold transition-colors inline-flex items-center">
+                            Ver IP Playbook &#8599;
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-blue-500"></div>
+                    <div class="p-6 pl-8">
+                        <div class="text-sm font-bold text-blue-500 mb-1">MÊS 2 E 3</div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Desenvolvimento MVP</h3>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li>&#8226; Codificação do núcleo de dados e relatórios.</li>
+                            <li>&#8226; Implementação do Dashboard de Risco.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-amber-500"></div>
+                    <div class="p-6 pl-8">
+                        <div class="text-sm font-bold text-amber-500 mb-1">MÊS 4</div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Clientes Beta</h3>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li>&#8226; Integração de empresas Early Adopters.</li>
+                            <li>&#8226; Validação em cenário real de auditoria.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-emerald-500"></div>
+                    <div class="p-6 pl-8">
+                        <div class="text-sm font-bold text-emerald-500 mb-1">MÊS 5</div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Lançamento & Escala</h3>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li>&#8226; Versão 1.0 (Comercial) via modelo SaaS.</li>
+                            <li>&#8226; Programa de Canais (Consultorias e Contabilidades).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-purple-500"></div>
+                    <div class="p-6 pl-8">
+                        <div class="text-sm font-bold text-purple-500 mb-1">MÊS 6</div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">Integração Externa</h3>
+                        <ul class="text-sm text-slate-600 space-y-2">
+                            <li>&#8226; Integração via API com o Registo Central Gov.</li>
+                            <li>&#8226; Foco forte na geração dos ativos CRVEs.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Secção: Concorrência -->
+        <section id="view-concorrencia" class="hidden animate-fade-in">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Paisagem Competitiva</h2>
+                <p class="text-lg text-slate-600 leading-relaxed">
+                    O mercado conta com intervenientes estabelecidos em consultoria e gigantes de tecnologia, mas carece de uma solução focada na integração ágil com o SBCE para o <i>mid-market</i>.
+                </p>
+            </div>
+
+            <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200">
+                <table class="w-full text-left border-collapse min-w-[600px]">
+                    <thead>
+                        <tr class="bg-slate-800 text-white">
+                            <th class="p-4 font-semibold">Concorrente</th>
+                            <th class="p-4 font-semibold">Perfil / Ponto Forte</th>
+                            <th class="p-4 font-semibold">Vulnerabilidade perante a Lei 15.042</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 font-bold">WayCarbon</td>
+                            <td class="p-4 text-sm text-slate-700">Consultoria líder no mercado voluntário.</td>
+                            <td class="p-4 text-sm text-slate-600">Modelo desenhado para grandes corporações (custo e tempo de implantação elevados).</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 font-bold">ERPs Globais (SAP/Oracle)</td>
+                            <td class="p-4 text-sm text-slate-700">Presença consolidada nas áreas financeiras.</td>
+                            <td class="p-4 text-sm text-slate-600">Alta latência para adaptar-se às portarias específicas de integração do governo (Serpro).</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50">
+                            <td class="p-4 font-bold text-teal-700 bg-teal-50">Nosso ERP Compliance</td>
+                            <td class="p-4 text-sm text-teal-800 bg-teal-50 font-medium">Especialista em Integração SBCE e Automação de Selo Verde.</td>
+                            <td class="p-4 text-sm text-teal-800 bg-teal-50 font-medium">Arquitetura nascida exclusivamente para as exigências locais de conciliação e geração de ativos (CRVEs).</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-6 text-center text-sm border-t border-slate-800 mt-auto">
+        <p>&copy; 2026 ERP Compliance - Documento Estratégico.</p>
+    </footer>
+
+    <script>
+        // Configuração dos Gráficos
+        const icpData = {
+            labels: ['Médias Indústrias (Foco Principal)', 'Grandes Corporações (Integração)', 'Pequenas Empresas (Consultoria)'],
+            datasets: [{
+                data: [60, 30, 10],
+                backgroundColor: ['#0d9488', '#334155', '#cbd5e1'],
+                borderWidth: 0,
+                hoverOffset: 4
+            }]
+        };
+
+        const icpConfig = {
+            type: 'doughnut',
+            data: icpData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom' } },
+                cutout: '65%'
+            }
+        };
+
+        const riskData = {
+            labels: ['Risco Crítico (Multa Iminente)', 'Atenção (Inconsistência)', 'Adequado (Pronto para Auditoria)'],
+            datasets: [{
+                data: [33, 33, 34],
+                backgroundColor: ['#ef4444', '#f59e0b', '#10b981'],
+                borderWidth: 0,
+                needleValue: 85 // Valor Inicial Seguro
+            }]
+        };
+
+        const gaugeNeedle = {
+            id: 'gaugeNeedle',
+            afterDatasetDraw(chart, args, options) {
+                const { ctx, config, data, chartArea: { top, bottom, left, right, width, height } } = chart;
+                ctx.save();
+                const needleValue = data.datasets[0].needleValue;
+                const dataTotal = data.datasets[0].data.reduce((a, b) => a + b, 0);
+                const angle = Math.PI + (1 / dataTotal * needleValue * Math.PI);
+                const cx = width / 2;
+                const cy = chart._metasets[0].data[0].y;
+                
+                ctx.translate(cx, cy);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.moveTo(0, -5);
+                ctx.lineTo(height - (ctx.canvas.offsetTop + 40), 0);
+                ctx.lineTo(0, 5);
+                ctx.fillStyle = '#1e293b';
+                ctx.fill();
+                ctx.translate(-cx, -cy);
+                ctx.beginPath();
+                ctx.arc(cx, cy, 10, 0, 10);
+                ctx.fill();
+                ctx.restore();
+                
+                ctx.font = 'bold 30px system-ui';
+                ctx.fillStyle = '#1e293b';
+                ctx.textAlign = 'center';
+                ctx.fillText(needleValue + '%', cx, cy + 40);
+                ctx.font = '14px system-ui';
+                ctx.fillStyle = '#64748b';
+                ctx.fillText('Índice de Conformidade', cx, cy + 60);
+            }
+        };
+
+        const riskConfig = {
+            type: 'doughnut',
+            data: riskData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                rotation: -90,
+                circumference: 180,
+                cutout: '80%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false }
+                }
+            },
+            plugins: [gaugeNeedle]
+        };
+
+        // Lógica de Simulação de Receita
+        let icpChartInst, riskChartInst, revChartInst;
+
+        function calculateRevenue(clientsPerMonth) {
+            const mrrTicket = 1500;
+            const setupTicket = 3000;
+            let setupData = [], mrrData = [], currentClients = 0;
+            for (let i = 1; i <= 12; i++) {
+                setupData.push(clientsPerMonth * setupTicket);
+                currentClients += clientsPerMonth;
+                mrrData.push(currentClients * mrrTicket);
+            }
+            const m12Value = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }).format(currentClients * mrrTicket);
+            document.getElementById('mrrM12').innerText = m12Value;
+            return { setupData, mrrData };
+        }
+
+        function updateRevenueChart() {
+            const val = parseInt(document.getElementById('clientsPerMonth').value);
+            document.getElementById('clientsValue').innerText = val + (val === 1 ? ' cliente' : ' clientes');
+            const newData = calculateRevenue(val);
+            if (revChartInst) {
+                revChartInst.data.datasets[0].data = newData.setupData;
+                revChartInst.data.datasets[1].data = newData.mrrData;
+                revChartInst.update();
+            }
+        }
+
+        // Gestão de Navegação
+        function navigate(viewId) {
+            const views = ['geral', 'mbv', 'produto', 'selos', 'receita', 'roadmap', 'concorrencia'];
+            views.forEach(v => {
+                document.getElementById('view-' + v).classList.add('hidden');
+                
+                // Reset Desktop Buttons
+                const dBtn = document.getElementById('btn-' + v);
+                if(dBtn) {
+                    dBtn.classList.remove('active', 'border-b-4', 'border-teal-600', 'text-slate-900', 'font-bold');
+                    if(v === 'selos' || v === 'mbv') { dBtn.classList.remove('border-emerald-600', 'text-emerald-900'); }
+                }
+                
+                // Reset Mobile Buttons
+                const mBtn = document.getElementById('btn-mob-' + v);
+                if(mBtn) {
+                    mBtn.classList.remove('active', 'border-b-4', 'border-teal-600', 'text-slate-900', 'font-bold', 'border-emerald-600', 'text-emerald-900');
+                }
+            });
+
+            document.getElementById('view-' + viewId).classList.remove('hidden');
+            
+            const btnDesktop = document.getElementById('btn-' + viewId);
+            const btnMobile = document.getElementById('btn-mob-' + viewId);
+            
+            // Aplicar estilos ativos (Estilos especiais para Selo Verde e MBV)
+            if(viewId === 'selos' || viewId === 'mbv') {
+                if(btnDesktop) btnDesktop.classList.add('active', 'border-b-4', 'border-emerald-600', 'text-emerald-900', 'font-bold');
+                if(btnMobile) btnMobile.classList.add('active', 'border-b-4', 'border-emerald-600', 'text-emerald-900', 'font-bold');
+            } else {
+                if(btnDesktop) btnDesktop.classList.add('active', 'border-b-4', 'border-teal-600', 'text-slate-900', 'font-bold');
+                if(btnMobile) btnMobile.classList.add('active', 'border-b-4', 'border-teal-600', 'text-slate-900', 'font-bold');
+            }
+        }
+
+        // Inicialização
+        window.onload = function() {
+            icpChartInst = new Chart(document.getElementById('icpChart'), icpConfig);
+            riskChartInst = new Chart(document.getElementById('riskGaugeChart'), riskConfig);
+            
+            const initialRevData = calculateRevenue(5);
+            const revConfig = {
+                type: 'bar',
+                data: {
+                    labels: ['Mês 1', 'Mês 2', 'Mês 3', 'Mês 4', 'Mês 5', 'Mês 6', 'Mês 7', 'Mês 8', 'Mês 9', 'Mês 10', 'Mês 11', 'Mês 12'],
+                    datasets: [
+                        { label: 'Receita Setup (Única)', data: initialRevData.setupData, backgroundColor: '#94a3b8', stack: 'Stack 0' },
+                        { label: 'MRR Acumulado (Mensalidade)', data: initialRevData.mrrData, backgroundColor: '#0d9488', stack: 'Stack 0' }
+                    ]
+                },
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) { label += ': '; }
+                                    if (context.parsed.y !== null) {
+                                        label += new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(context.parsed.y);
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+            revChartInst = new Chart(document.getElementById('revenueChart'), revConfig);
+            document.getElementById('clientsPerMonth').addEventListener('input', updateRevenueChart);
+        };
+
+        window.updateGauge = function(value) {
+            if (riskChartInst) {
+                riskChartInst.data.datasets[0].needleValue = value;
+                riskChartInst.update();
+            }
+        };
+    </script>
+</body>
+</html> 
