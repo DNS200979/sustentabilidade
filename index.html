@@ -83,19 +83,19 @@
                 </div>
                 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8">
-                    <a href="historico_15042.html" target="_blank" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Histórico</a>
-                    <a href="#cenario" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Cenário Regulatório</a>
-                    <a href="#erp" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Plataforma ERP</a>
-                    <!-- Link Mercado (CRVE) apontando para selo_verde.html -->
+                <div class="hidden md:flex space-x-6 lg:space-x-8 items-center">
+                    <a href="projeto_1hct.html" target="_blank" class="text-mbv-green border-b-2 border-mbv-green hover:text-white hover:border-white transition-all text-sm font-bold uppercase tracking-wider pb-1">Projeto 1 Hectare</a>
                     <a href="selo_verde.html" target="_blank" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Mercado (CRVE)</a>
                     <a href="#inovacao" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Inovação</a>
+                    <a href="#cenario" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Cenário Regulatório</a>
+                    <a href="historico_15042.html" target="_blank" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Histórico</a>
+                    <a href="#erp" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Plataforma ERP</a>
                 </div>
 
                 <!-- Botão CTA -->
-                <div class="hidden md:flex">
-                    <a href="#dashboard-demo" class="bg-mbv-green hover:bg-opacity-90 text-mbv-dark font-bold py-2 px-6 rounded-full transition-all">
-                        Acessar Portal
+                <div class="hidden lg:flex">
+                    <a href="#" onclick="event.preventDefault();" class="bg-mbv-green hover:bg-opacity-90 text-mbv-dark font-bold py-2 px-6 rounded-full transition-all cursor-default opacity-90">
+                        Galeria de Fotos
                     </a>
                 </div>
             </div>
@@ -107,7 +107,6 @@
         <!-- Elemento de fundo com a imagem MBV_image.jpg -->
         <div class="absolute inset-0 z-0">
             <img src="MBV_image.jpg" alt="Background MBV" class="w-full h-full object-cover opacity-15">
-            <!-- Gradiente para garantir leitura do texto na esquerda -->
             <div class="absolute inset-0 bg-gradient-to-r from-mbv-dark via-mbv-dark/80 to-transparent"></div>
         </div>
         
@@ -142,7 +141,6 @@
                 <!-- Coluna Direita: Painel Glassmorphism de Integrações e ONU -->
                 <div class="lg:col-span-5">
                     <div class="glass-panel p-8 rounded-3xl shadow-2xl relative overflow-hidden group">
-                        <!-- Brilho animado no card -->
                         <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
                         
                         <!-- Bloco ONU -->
@@ -200,7 +198,151 @@
         </div>
     </header>
 
-    <!-- Cenário Regulatório -->
+    <!-- 1. Resumo Projeto 1 Hectare -->
+    <section id="projeto-hectare" class="py-20 bg-gray-50 border-b border-gray-200 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-mbv-dark rounded-[2.5rem] overflow-hidden shadow-2xl relative hover-lift">
+                <!-- Background decoration -->
+                <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
+                    <div class="absolute -top-20 -left-20 w-80 h-80 bg-mbv-green opacity-20 rounded-full blur-[80px]"></div>
+                    <div class="absolute -bottom-20 -right-20 w-96 h-96 bg-mbv-olive opacity-20 rounded-full blur-[100px]"></div>
+                </div>
+                
+                <div class="relative z-10 p-10 md:p-16 flex flex-col lg:flex-row items-center gap-12">
+                    <div class="lg:w-1/2">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="text-2xl">&#127793;</span>
+                            <span class="text-mbv-green font-bold tracking-widest uppercase text-xs px-3 py-1 bg-mbv-green/10 border border-mbv-green/30 rounded-full">
+                                Agrofloresta Inteligente
+                            </span>
+                        </div>
+                        <h2 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">Projeto 1 Hectare</h2>
+                        <p class="text-gray-300 text-lg leading-relaxed mb-8">
+                            A união perfeita entre soberania alimentar e rentabilidade. Transforme um pequeno espaço em uma potência ecológica com o consórcio estratégico de <strong>Agrofloresta e Meliponicultura (Abelhas Nativas)</strong>, gerando impacto ambiental real e alto fluxo de caixa.
+                        </p>
+                        <a href="projeto_1hct.html" target="_blank" class="inline-flex items-center justify-center px-8 py-4 bg-mbv-green text-mbv-dark font-black rounded-xl hover:bg-white hover:text-mbv-dark transition-all shadow-lg hover:shadow-xl hover:-translate-y-1">
+                            Explorar Metodologia e ROI Financeiro &#8599;
+                        </a>
+                    </div>
+                    
+                    <div class="lg:w-1/2 w-full grid grid-cols-2 gap-4">
+                        <div class="bg-mbv-surface/80 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-mbv-green/50 transition-colors">
+                            <div class="text-3xl mb-3">&#128176;</div>
+                            <div class="text-2xl md:text-3xl font-black text-white">R$ 95k</div>
+                            <div class="text-[10px] md:text-xs text-mbv-green uppercase tracking-widest mt-1 font-bold">Receita Anual</div>
+                        </div>
+                        <div class="bg-mbv-surface/80 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-mbv-olive/50 transition-colors">
+                            <div class="text-3xl mb-3">&#128029;</div>
+                            <div class="text-2xl md:text-3xl font-black text-white">+42%</div>
+                            <div class="text-[10px] md:text-xs text-mbv-olive uppercase tracking-widest mt-1 font-bold">Produtividade</div>
+                        </div>
+                        <div class="bg-mbv-surface/80 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-mbv-green/50 transition-colors">
+                            <div class="text-3xl mb-3">&#127794;</div>
+                            <div class="text-2xl md:text-3xl font-black text-white">1.200</div>
+                            <div class="text-[10px] md:text-xs text-mbv-green uppercase tracking-widest mt-1 font-bold">Árvores Plantadas</div>
+                        </div>
+                        <div class="bg-mbv-surface/80 backdrop-blur-md p-6 md:p-8 rounded-2xl border border-white/10 hover:border-mbv-olive/50 transition-colors">
+                            <div class="text-3xl mb-3">&#127757;</div>
+                            <div class="text-2xl md:text-3xl font-black text-white">100%</div>
+                            <div class="text-[10px] md:text-xs text-mbv-olive uppercase tracking-widest mt-1 font-bold">Regenerativo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Mercado CRVE (Selos e Rastreabilidade) -->
+    <section id="mercado-crve" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <i data-lucide="award" class="w-12 h-12 text-mbv-olive mx-auto mb-4"></i>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Infraestrutura de Valor: Selos e Rastreabilidade</h2>
+                <p class="text-gray-600">
+                    Nossa atuação no mercado foca em transformar promessas estéticas de sustentabilidade em garantias fiduciárias reconhecidas globalmente pelo mercado de capitais.
+                </p>
+            </div>
+            
+            <div class="bg-mbv-dark rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
+                <div class="p-10 md:w-1/2 flex flex-col justify-center border-b md:border-b-0 md:border-r border-gray-700">
+                    <div class="flex items-center mb-4">
+                        <i data-lucide="award" class="w-8 h-8 text-mbv-green mr-3"></i>
+                        <h3 class="text-2xl font-bold text-white">Selo Verde</h3>
+                    </div>
+                    <p class="text-gray-300 mb-6">O passaporte definitivo para vantagens ativas e passivas. Destranca benefícios como dedução no IRPJ, incentivos IPI/MOVER, IPTU Verde e hegemonia em licitações públicas (Lei 14.133/2021).</p>
+                    <ul class="text-sm text-gray-400 space-y-2 mb-8">
+                        <li class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-mbv-olive"></i> Acesso a Crédito Subsidiado (BNDES/BRDE)</li>
+                        <li class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-mbv-olive"></i> Blindagem contra penalidades do SBCE</li>
+                    </ul>
+                    <div>
+                        <a href="selo_verde.html" target="_blank" class="inline-flex items-center text-mbv-green hover:text-white font-bold transition-colors">
+                            Ler Relatório Completo <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="p-10 md:w-1/2 flex flex-col justify-center bg-mbv-surface relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-mbv-olive/10 rounded-full blur-3xl"></div>
+                    <div class="flex items-center mb-4 relative z-10">
+                        <i data-lucide="link" class="w-8 h-8 text-mbv-olive mr-3"></i>
+                        <h3 class="text-2xl font-bold text-white">Link Verde</h3>
+                    </div>
+                    <p class="text-gray-300 mb-4 relative z-10">A infraestrutura de rastreabilidade. Utiliza Protocolo Anti-Double-Counting com hashing criptográfico (SHA-256) atrelando sensores IoT aos registros oficiais do Serpro.</p>
+                    <p class="text-sm text-gray-400 italic border-l-2 border-mbv-green pl-4 relative z-10">
+                        "O dado ambiental rastreável é a nova moeda de troca da economia regenerativa."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Inovação & MBV -->
+    <section id="inovacao" class="py-20 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-16 items-center">
+                <div class="lg:w-1/2">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Inovação e Aceleração Biológica</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Liderado por Luciano Paiva, o MBV não se adapta passivamente às regulações. Assumimos a vanguarda global na captura de carbono. Aliando conservação rigorosa a um forte motor econômico e tecnológico, o Movimento prova que sustentabilidade e lucratividade caminham juntas.
+                    </p>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-mbv-olive mb-6">
+                        <h4 class="font-bold text-lg text-gray-900 mb-2">Projeto das 2.000 Florestas</h4>
+                        <p class="text-sm text-gray-600">A estruturação de 2.000 áreas de 100 hectares cada, promovendo a reengenharia biológica dos solos para maximizar a geração de ativos (CRVEs).</p>
+                    </div>
+
+                    <div class="bg-mbv-dark text-white p-6 rounded-xl shadow-md relative overflow-hidden">
+                        <div class="absolute right-0 top-0 opacity-10 w-32 h-32 transform translate-x-8 -translate-y-8">
+                            <i data-lucide="flask-conical" class="w-full h-full"></i>
+                        </div>
+                        <h4 class="font-bold text-lg text-mbv-green mb-2 relative z-10">Tecnologia Neutrino</h4>
+                        <p class="text-sm text-gray-300 relative z-10">
+                            Aumento logarítmico da biota terrestre. A inovação disruptiva reduz o tempo de maturação da floresta e absorção de carbono de <strong>35-40 anos para apenas 15 anos</strong>, alterando drasticamente o Valor Presente Líquido (VPL) dos projetos.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 w-full">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 hover-lift">
+                            <div class="text-4xl font-bold text-mbv-green mb-2">15</div>
+                            <div class="text-sm text-gray-500 font-medium">Anos para maturação<br>com uso da tecnologia avançada dos Neutrinos</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 hover-lift">
+                            <div class="text-4xl font-bold text-mbv-olive mb-2">200k</div>
+                            <div class="text-sm text-gray-500 font-medium">Hectares totais no<br>projeto florestal</div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 col-span-2 hover-lift">
+                            <i data-lucide="trending-up" class="w-8 h-8 text-blue-500 mx-auto mb-3"></i>
+                            <div class="text-xl font-bold text-gray-900 mb-1">Aceleração de VPL</div>
+                            <div class="text-sm text-gray-500">Transforma áreas degradadas em potências financeiras de alta liquidez.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Cenário Regulatório -->
     <section id="cenario" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
@@ -275,7 +417,41 @@
         </div>
     </section>
 
-    <!-- ERP Section -->
+    <!-- 5. Histórico -->
+    <section id="historico" class="py-20 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <i data-lucide="globe-2" class="w-12 h-12 text-mbv-olive mx-auto mb-4"></i>
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Histórico e Contexto Global</h2>
+                <p class="text-gray-600">
+                    Compreenda a origem das regulamentações que moldam o mercado de carbono atual e o porquê da urgência na adoção de tecnologias de conformidade.
+                </p>
+            </div>
+
+            <div class="bg-mbv-dark rounded-3xl p-8 md:p-12 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10 shadow-2xl relative overflow-hidden hover-lift">
+                <!-- decorative background -->
+                <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-mbv-olive opacity-10 rounded-full blur-3xl"></div>
+                <div class="flex-1 relative z-10">
+                    <h4 class="text-2xl font-bold text-white mb-4 flex items-center">
+                        <i data-lucide="history" class="w-8 h-8 text-mbv-olive mr-3"></i> Origem da Lei 15.042
+                    </h4>
+                    <p class="text-base text-gray-300 leading-relaxed mb-4">
+                        A urgência de implementação de <strong>ERPs especializados</strong> decorre diretamente da evolução do texto normativo. Estruturada a partir de debates internacionais (da Cúpula de Genebra ao Fórum de Davos, 2021-2024), a norma já foi transposta para o arcabouço jurídico de mais de 40 países.
+                    </p>
+                    <p class="text-base text-gray-300 leading-relaxed">
+                        O sistema garante que a adequação às diretrizes — já assinadas por mais de 1.200 grandes corporações ao redor do globo — seja feita de forma fluida e auditável.
+                    </p>
+                </div>
+                <div class="flex-shrink-0 w-full md:w-auto relative z-10">
+                    <a href="historico_15042.html" target="_blank" class="block text-center whitespace-nowrap bg-mbv-olive/10 hover:bg-mbv-olive/20 border border-mbv-olive text-mbv-olive font-bold py-4 px-8 rounded-xl transition-all shadow-[0_0_15px_rgba(176,169,78,0.2)]">
+                        Ler Histórico Completo &#8599;
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Plataforma ERP Section -->
     <section id="erp" class="py-20 bg-mbv-dark text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
@@ -344,103 +520,6 @@
                 </div>
             </div>
 
-            <!-- Novo Bloco de Contexto Resumido sobre o Histórico (Final do ERP) -->
-            <div class="mt-12 bg-mbv-surface/50 backdrop-blur-md border border-mbv-olive/30 rounded-2xl p-8 max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 hover-lift shadow-xl">
-                <div class="flex-1">
-                    <h4 class="text-xl font-bold text-white mb-3 flex items-center">
-                        <i data-lucide="history" class="w-6 h-6 text-mbv-olive mr-3"></i> Origem e Contexto Global
-                    </h4>
-                    <p class="text-sm text-gray-300 leading-relaxed">
-                        A urgência de implementação do <strong>ERP Compliance</strong> decorre diretamente da evolução do texto da <strong class="text-mbv-green">Lei 15.042</strong>. Estruturada a partir de debates internacionais, da Cúpula de Genebra ao Fórum de Davos (2021-2024), a norma já foi transposta para o arcabouço jurídico de mais de 40 países. O sistema garante que a adequação às diretrizes — já assinadas por mais de 1.200 grandes corporações — seja feita de forma fluida.
-                    </p>
-                </div>
-                <div class="flex-shrink-0 w-full md:w-auto">
-                    <a href="historico_15042.html" target="_blank" class="block text-center whitespace-nowrap bg-mbv-olive/10 hover:bg-mbv-olive/20 border border-mbv-olive text-mbv-olive font-bold py-3 px-8 rounded-xl transition-all shadow-[0_0_15px_rgba(176,169,78,0.2)]">
-                        Ler Histórico Completo &#8599;
-                    </a>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Inovação & MBV -->
-    <section id="inovacao" class="py-20 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col lg:flex-row gap-16 items-center">
-                <div class="lg:w-1/2">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-6">O Movimento Brasil Verde (MBV) & Inovação</h2>
-                    <p class="text-gray-600 mb-6 leading-relaxed">
-                        Liderado por Luciano Paiva, o MBV não se adapta passivamente às regulações. Assumimos a vanguarda global na captura de carbono. Aliando conservação rigorosa a um forte motor econômico e tecnológico, o Movimento prova que sustentabilidade e lucratividade caminham juntas.
-                    </p>
-                    
-                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-mbv-olive mb-6">
-                        <h4 class="font-bold text-lg text-gray-900 mb-2">Projeto das 2.000 Florestas</h4>
-                        <p class="text-sm text-gray-600">A estruturação de 2.000 áreas de 100 hectares cada, promovendo a reengenharia biológica dos solos para maximizar a geração de ativos (CRVEs).</p>
-                    </div>
-
-                    <div class="bg-mbv-dark text-white p-6 rounded-xl shadow-md relative overflow-hidden">
-                        <div class="absolute right-0 top-0 opacity-10 w-32 h-32 transform translate-x-8 -translate-y-8">
-                            <i data-lucide="flask-conical" class="w-full h-full"></i>
-                        </div>
-                        <h4 class="font-bold text-lg text-mbv-green mb-2 relative z-10">Tecnologia Neutrino</h4>
-                        <p class="text-sm text-gray-300 relative z-10">
-                            Aumento logarítmico da biota terrestre. A inovação disruptiva reduz o tempo de maturação da floresta e absorção de carbono de <strong>35-40 anos para apenas 15 anos</strong>, alterando drasticamente o Valor Presente Líquido (VPL) dos projetos.
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="lg:w-1/2 w-full">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 hover-lift">
-                            <div class="text-4xl font-bold text-mbv-green mb-2">15</div>
-                            <div class="text-sm text-gray-500 font-medium">Anos para maturação<br>com uso da tecnologia anançada dos Neutrinos</div>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 hover-lift">
-                            <div class="text-4xl font-bold text-mbv-olive mb-2">200k</div>
-                            <div class="text-sm text-gray-500 font-medium">Hectares totais no<br>projeto florestal</div>
-                        </div>
-                        <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 col-span-2 hover-lift">
-                            <i data-lucide="trending-up" class="w-8 h-8 text-blue-500 mx-auto mb-3"></i>
-                            <div class="text-xl font-bold text-gray-900 mb-1">Aceleração de VPL</div>
-                            <div class="text-sm text-gray-500">Transforma áreas degradadas em potências financeiras de alta liquidez.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Parcerias Detalhadas & Certificações -->
-    <section class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-16">Infraestrutura de Valor: Selos e Rastreabilidade</h2>
-            
-            <!-- Cards de Selo e Link Verde -->
-            <div class="bg-mbv-dark rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
-                <div class="p-10 md:w-1/2 flex flex-col justify-center border-b md:border-b-0 md:border-r border-gray-700">
-                    <div class="flex items-center mb-4">
-                        <i data-lucide="award" class="w-8 h-8 text-mbv-green mr-3"></i>
-                        <h3 class="text-2xl font-bold text-white">Selo Verde</h3>
-                    </div>
-                    <p class="text-gray-300 mb-6">O passaporte definitivo para vantagens ativas e passivas. Destranca benefícios como dedução no IRPJ, incentivos IPI/MOVER, IPTU Verde e hegemonia em licitações públicas (Lei 14.133/2021).</p>
-                    <ul class="text-sm text-gray-400 space-y-2">
-                        <li class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-mbv-olive"></i> Acesso a Crédito Subsidiado (BNDES/BRDE)</li>
-                        <li class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-mbv-olive"></i> Blindagem contra penalidades do SBCE</li>
-                    </ul>
-                </div>
-                <div class="p-10 md:w-1/2 flex flex-col justify-center bg-mbv-surface relative overflow-hidden">
-                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-mbv-olive/10 rounded-full blur-3xl"></div>
-                    <div class="flex items-center mb-4 relative z-10">
-                        <i data-lucide="link" class="w-8 h-8 text-mbv-olive mr-3"></i>
-                        <h3 class="text-2xl font-bold text-white">Link Verde</h3>
-                    </div>
-                    <p class="text-gray-300 mb-4 relative z-10">A infraestrutura de rastreabilidade. Utiliza Protocolo Anti-Double-Counting com hashing criptográfico (SHA-256) atrelando sensores IoT aos registros oficiais do Serpro.</p>
-                    <p class="text-sm text-gray-400 italic border-l-2 border-mbv-green pl-4 relative z-10">
-                        "Transforma promessas estéticas de sustentabilidade em garantias fiduciárias reconhecidas pelo mercado de capitais."
-                    </p>
-                </div>
-            </div>
         </div>
     </section>
 
