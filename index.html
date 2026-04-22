@@ -48,9 +48,10 @@
         }
 
         .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Animação suave para os cards */
@@ -85,7 +86,7 @@
                 <div class="hidden md:flex space-x-8">
                     <a href="#cenario" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Cenário Regulatório</a>
                     <a href="#erp" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Plataforma ERP</a>
-                    <!-- Modificação 1: Link Mercado (CRVE) apontando para selo_verde.html -->
+                    <!-- Link Mercado (CRVE) apontando para selo_verde.html -->
                     <a href="selo_verde.html" target="_blank" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Mercado (CRVE)</a>
                     <a href="#inovacao" class="hover:text-mbv-green transition-colors text-sm font-semibold uppercase tracking-wider">Inovação</a>
                 </div>
@@ -101,33 +102,103 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative bg-mbv-dark text-white overflow-hidden">
-        <!-- Elemento de fundo decorativo -->
-        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-mbv-green opacity-10 blur-3xl"></div>
-        <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-mbv-olive opacity-10 blur-3xl"></div>
+    <header class="relative bg-mbv-dark text-white overflow-hidden py-16 lg:py-24">
+        <!-- Elemento de fundo com a imagem MBV_image.jpg -->
+        <div class="absolute inset-0 z-0">
+            <img src="MBV_image.jpg" alt="Background MBV" class="w-full h-full object-cover opacity-15">
+            <!-- Gradiente para garantir leitura do texto na esquerda -->
+            <div class="absolute inset-0 bg-gradient-to-r from-mbv-dark via-mbv-dark/80 to-transparent"></div>
+        </div>
+        
+        <!-- Elemento de luz (blur) -->
+        <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 rounded-full bg-mbv-green opacity-20 blur-3xl z-0 pointer-events-none"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
-            <div class="md:w-2/3">
-                <span class="text-mbv-green font-bold tracking-widest uppercase text-sm mb-4 block">Movimento Brasil Verde</span>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-                    O Ecossistema Tecnológico da <span class="text-transparent bg-clip-text bg-gradient-to-r from-mbv-green to-mbv-olive">Nova Economia Verde</span>
-                </h1>
-                <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl leading-relaxed">
-                    A gestão inteligente de sustentabilidade liderada pelo CEO Luciano Paiva. Transforme obrigações climáticas em liquidez financeira com a novidade da infraestrutura ERP elaborado para atender a lei 15.042.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="#erp" class="bg-mbv-green text-mbv-dark text-center font-bold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-all">
-                        Conheça o ERP da lei 15.042
-                    </a>
-                    <a href="#cenario" class="border border-mbv-olive text-mbv-olive hover:bg-mbv-olive hover:text-mbv-dark text-center font-bold py-3 px-8 rounded-lg transition-all">
-                        Entenda o SBCE
-                    </a>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Coluna Esquerda: Introdução Principal -->
+                <div class="lg:col-span-7">
+                    <span class="inline-block border border-mbv-green/50 bg-mbv-green/10 text-mbv-green font-bold tracking-widest uppercase text-xs px-3 py-1 rounded-full mb-6">
+                        Movimento Brasil Verde
+                    </span>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        O Ecossistema Tecnológico da <br>
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-mbv-green to-mbv-olive">Nova Economia Verde</span>
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl leading-relaxed">
+                        A gestão inteligente de sustentabilidade liderada pelo CEO Luciano Paiva. Transforme obrigações climáticas em liquidez financeira com a nova infraestrutura ERP elaborada para atender a lei 15.042.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#erp" class="bg-mbv-green text-mbv-dark text-center font-bold py-3 px-8 rounded-lg hover:bg-opacity-90 transition-all shadow-[0_0_20px_rgba(140,189,65,0.4)] hover:shadow-[0_0_25px_rgba(140,189,65,0.6)]">
+                            Conheça o ERP (Lei 15.042)
+                        </a>
+                        <a href="#cenario" class="border border-mbv-olive/50 text-mbv-olive bg-mbv-dark/50 backdrop-blur-sm hover:bg-mbv-olive hover:text-mbv-dark text-center font-bold py-3 px-8 rounded-lg transition-all">
+                            Entenda o SBCE
+                        </a>
+                    </div>
                 </div>
+
+                <!-- Coluna Direita: Painel Glassmorphism de Integrações e ONU -->
+                <div class="lg:col-span-5">
+                    <div class="glass-panel p-8 rounded-3xl shadow-2xl relative overflow-hidden group">
+                        <!-- Brilho animado no card -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+                        
+                        <!-- Bloco ONU -->
+                        <div class="mb-8 relative z-10">
+                            <h3 class="text-[11px] font-bold text-mbv-green uppercase tracking-widest mb-5 flex items-center border-b border-mbv-green/20 pb-2">
+                                <i data-lucide="globe-2" class="w-4 h-4 mr-2"></i> Chancela Internacional
+                            </h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start bg-white/5 p-3 rounded-xl border border-white/5 hover:bg-white/10 transition-colors">
+                                    <span class="text-2xl mr-3 leading-none">🇺🇳</span>
+                                    <div>
+                                        <h4 class="text-white font-bold text-sm">Pacto Global da ONU</h4>
+                                        <p class="text-gray-400 text-xs mt-1">Integração à maior iniciativa de sustentabilidade corporativa do mundo.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start bg-white/5 p-3 rounded-xl border border-white/5 hover:bg-white/10 transition-colors">
+                                    <span class="text-2xl mr-3 leading-none">🎯</span>
+                                    <div>
+                                        <h4 class="text-white font-bold text-sm">Movimento ODS</h4>
+                                        <p class="text-gray-400 text-xs mt-1">Compromisso tecnológico com os Objetivos da Agenda 2030.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bloco Integrações Institucionais -->
+                        <div class="relative z-10">
+                            <h3 class="text-[11px] font-bold text-mbv-olive uppercase tracking-widest mb-5 flex items-center border-b border-mbv-olive/20 pb-2">
+                                <i data-lucide="link" class="w-4 h-4 mr-2"></i> Integrações Estratégicas
+                            </h3>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="bg-black/20 border border-white/5 rounded-lg p-3 flex items-center space-x-3 hover:border-mbv-green/50 transition-colors">
+                                    <i data-lucide="map" class="w-5 h-5 text-gray-400"></i>
+                                    <span class="text-xs font-semibold text-gray-200">IBAMA (SiCAR)</span>
+                                </div>
+                                <div class="bg-black/20 border border-white/5 rounded-lg p-3 flex items-center space-x-3 hover:border-mbv-olive/50 transition-colors">
+                                    <i data-lucide="users" class="w-5 h-5 text-gray-400"></i>
+                                    <span class="text-xs font-semibold text-gray-200">INCRA</span>
+                                </div>
+                                <div class="bg-black/20 border border-white/5 rounded-lg p-3 flex items-center space-x-3 hover:border-mbv-green/50 transition-colors">
+                                    <i data-lucide="shield-check" class="w-5 h-5 text-gray-400"></i>
+                                    <span class="text-xs font-semibold text-gray-200">IMA-SC</span>
+                                </div>
+                                <div class="bg-black/20 border border-white/5 rounded-lg p-3 flex items-center space-x-3 hover:border-mbv-olive/50 transition-colors">
+                                    <i data-lucide="landmark" class="w-5 h-5 text-gray-400"></i>
+                                    <span class="text-xs font-semibold text-gray-200">Min. Fazenda</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </header>
-    <!--Destaque Institucional-->
-    
+
     <!-- Cenário Regulatório -->
     <section id="cenario" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -203,7 +274,7 @@
         </div>
     </section>
 
-    <!-- ERP Section (MVB.html) -->
+    <!-- ERP Section -->
     <section id="erp" class="py-20 bg-mbv-dark text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-3xl mx-auto mb-16">
@@ -212,7 +283,6 @@
                 <p class="text-gray-400 mb-6">
                     O front-end operacional SaaS que se acopla aos sistemas legados (SAP, Oracle, TOTVS). Traduz a densidade normativa em ações estratégicas.
                 </p>
-                <!-- Modificação 2: Link para o arquivo ERP_15042.html adicionado -->
                 <a href="ERP_15042.html" target="_blank" class="inline-flex items-center justify-center px-6 py-3 border-2 border-mbv-green text-mbv-green hover:bg-mbv-green hover:text-mbv-dark font-bold rounded-full transition-all duration-300 shadow-[0_0_15px_rgba(140,189,65,0.3)] hover:shadow-[0_0_25px_rgba(140,189,65,0.6)]">
                     <i data-lucide="external-link" class="w-5 h-5 mr-2"></i> Acessar Plano de Negócios do ERP
                 </a>
@@ -246,7 +316,7 @@
             </div>
 
             <!-- Interativo: Simulador Visual Simplificado -->
-            <div id="dashboard-demo" class="mt-16 bg-mbv-surface p-6 rounded-2xl border border-gray-700 max-w-4xl mx-auto">
+            <div id="dashboard-demo" class="mt-16 bg-mbv-surface p-6 rounded-2xl border border-gray-700 max-w-4xl mx-auto shadow-2xl">
                 <div class="flex items-center justify-between mb-6">
                     <h4 class="font-bold text-lg flex items-center"><i data-lucide="activity" class="w-5 h-5 mr-2 text-mbv-green"></i> Status de Conformidade em Tempo Real</h4>
                     <span class="text-xs text-gray-400 font-mono">ID: ERP-MBV-9901</span>
@@ -282,7 +352,7 @@
                 <div class="lg:w-1/2">
                     <h2 class="text-3xl font-bold text-gray-900 mb-6">O Movimento Brasil Verde (MBV) & Inovação</h2>
                     <p class="text-gray-600 mb-6 leading-relaxed">
-                        Liderado por Luciano Paiva, o MBV não se adapta passivamente às regulações. Assumimos a vanguarda global na captura de carbono. Signatário do Pacto Global da ONU, o MBV une conservação rigorosa a motor econômico.
+                        Liderado por Luciano Paiva, o MBV não se adapta passivamente às regulações. Assumimos a vanguarda global na captura de carbono. Aliando conservação rigorosa a um forte motor econômico e tecnológico, o Movimento prova que sustentabilidade e lucratividade caminham juntas.
                     </p>
                     
                     <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-mbv-olive mb-6">
@@ -294,7 +364,7 @@
                         <div class="absolute right-0 top-0 opacity-10 w-32 h-32 transform translate-x-8 -translate-y-8">
                             <i data-lucide="flask-conical" class="w-full h-full"></i>
                         </div>
-                        <h4 class="font-bold text-lg text-mbv-green mb-2 relative z-10">Tecnologia Neutrotan</h4>
+                        <h4 class="font-bold text-lg text-mbv-green mb-2 relative z-10">Tecnologia Neutrino</h4>
                         <p class="text-sm text-gray-300 relative z-10">
                             Aumento logarítmico da biota terrestre. A inovação disruptiva reduz o tempo de maturação da floresta e absorção de carbono de <strong>35-40 anos para apenas 15 anos</strong>, alterando drasticamente o Valor Presente Líquido (VPL) dos projetos.
                         </p>
@@ -305,7 +375,7 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 hover-lift">
                             <div class="text-4xl font-bold text-mbv-green mb-2">15</div>
-                            <div class="text-sm text-gray-500 font-medium">Anos para maturação<br>com Neutrotan</div>
+                            <div class="text-sm text-gray-500 font-medium">Anos para maturação<br>com uso da tecnologia anançada dos Neutrinos</div>
                         </div>
                         <div class="bg-white p-6 rounded-xl shadow-sm text-center border border-gray-100 hover-lift">
                             <div class="text-4xl font-bold text-mbv-olive mb-2">200k</div>
@@ -322,38 +392,12 @@
         </div>
     </section>
 
-    <!-- Parcerias & Certificações -->
+    <!-- Parcerias Detalhadas & Certificações -->
     <section class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-16">Integração Institucional e Certificações</h2>
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-16">Infraestrutura de Valor: Selos e Rastreabilidade</h2>
             
-            <div class="grid md:grid-cols-3 gap-8 mb-16">
-                <!-- IBAMA -->
-                <div class="border border-gray-200 rounded-xl p-6 text-center hover-lift bg-gray-50">
-                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm mb-4">
-                        <i data-lucide="map" class="w-8 h-8 text-mbv-dark"></i>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2">IBAMA (SiCAR)</h3>
-                    <p class="text-sm text-gray-600">Adequação rigorosa e cruzamento de dados para geração de CRVEs com higidez fundiária garantida.</p>
-                </div>
-                <!-- INCRA -->
-                <div class="border border-gray-200 rounded-xl p-6 text-center hover-lift bg-gray-50">
-                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm mb-4">
-                        <i data-lucide="users" class="w-8 h-8 text-mbv-dark"></i>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2">INCRA</h3>
-                    <p class="text-sm text-gray-600">Potencialização de assentamentos rurais em programas jurisdicionais REDD+ gerando renda e conformidade.</p>
-                </div>
-                <!-- IMA-SC -->
-                <div class="border border-gray-200 rounded-xl p-6 text-center hover-lift bg-gray-50">
-                    <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm mb-4">
-                        <i data-lucide="tent-tree" class="w-8 h-8 text-mbv-dark"></i>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2">IMA-SC (FATMA)</h3>
-                    <p class="text-sm text-gray-600">Parcerias público-privadas em Unidades de Conservação gerando "ESG premium" e mitigação de risco.</p>
-                </div>
-            </div>
-
+            <!-- Cards de Selo e Link Verde -->
             <div class="bg-mbv-dark rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row">
                 <div class="p-10 md:w-1/2 flex flex-col justify-center border-b md:border-b-0 md:border-r border-gray-700">
                     <div class="flex items-center mb-4">
@@ -366,13 +410,14 @@
                         <li class="flex items-center"><i data-lucide="check-circle-2" class="w-4 h-4 mr-2 text-mbv-olive"></i> Blindagem contra penalidades do SBCE</li>
                     </ul>
                 </div>
-                <div class="p-10 md:w-1/2 flex flex-col justify-center bg-mbv-surface">
-                    <div class="flex items-center mb-4">
+                <div class="p-10 md:w-1/2 flex flex-col justify-center bg-mbv-surface relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-mbv-olive/10 rounded-full blur-3xl"></div>
+                    <div class="flex items-center mb-4 relative z-10">
                         <i data-lucide="link" class="w-8 h-8 text-mbv-olive mr-3"></i>
                         <h3 class="text-2xl font-bold text-white">Link Verde</h3>
                     </div>
-                    <p class="text-gray-300 mb-4">A infraestrutura de rastreabilidade. Utiliza Protocolo Anti-Double-Counting com hashing criptográfico (SHA-256) atrelando sensores IoT aos registros oficiais do Serpro.</p>
-                    <p class="text-sm text-gray-400 italic border-l-2 border-mbv-green pl-4">
+                    <p class="text-gray-300 mb-4 relative z-10">A infraestrutura de rastreabilidade. Utiliza Protocolo Anti-Double-Counting com hashing criptográfico (SHA-256) atrelando sensores IoT aos registros oficiais do Serpro.</p>
+                    <p class="text-sm text-gray-400 italic border-l-2 border-mbv-green pl-4 relative z-10">
                         "Transforma promessas estéticas de sustentabilidade em garantias fiduciárias reconhecidas pelo mercado de capitais."
                     </p>
                 </div>
@@ -397,7 +442,7 @@
                 </div>
                 <div class="md:text-right">
                     <p class="text-sm mb-2">Ditando o custo do carbono para a economia globalizada.</p>
-                    <p class="text-xs opacity-50">&copy; 2026 Movimento Brasil Verde. Todos os direitos reservados à tecnologia ERP da Lei 15.042 e Neutrotan.</p>
+                    <p class="text-xs opacity-50">&copy; 2026 Movimento Brasil Verde. Todos os direitos reservados à tecnologia ERP da Lei 15.042 e Neutrinos.</p>
                 </div>
             </div>
         </div>
