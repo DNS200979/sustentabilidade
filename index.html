@@ -127,60 +127,98 @@
         </div>
     </header>
     <!--Destaque Institucional-->
-<section class="bg-white py-12 border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-col lg:flex-row items-center justify-between gap-10">
+<section class="relative bg-mbv-dark py-16 overflow-hidden border-b border-mbv-green/30">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full opacity-10">
+        <img src="MBV_image.jpg" alt="Background MBV" class="w-full h-full object-cover">
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
             
-            <div class="flex-1 w-full">
-                <div class="flex items-center gap-4 mb-6">
-                    <div class="p-3 bg-blue-50 rounded-lg">
-                        <i data-lucide="globe" class="w-8 h-8 text-blue-600"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-sm font-bold text-blue-900 uppercase tracking-widest">Chancela Internacional</h2>
-                        <p class="text-xl font-extrabold text-gray-900">Alinhamento Global ONU</p>
-                    </div>
+            <div class="lg:col-span-7">
+                <div class="flex items-center space-x-3 mb-6">
+                    <span class="h-px w-12 bg-mbv-green"></span>
+                    <span class="text-mbv-green font-bold tracking-[0.2em] text-xs uppercase">Autoridade Global</span>
                 </div>
                 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div class="flex items-center p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 transition-colors">
-                        <span class="text-2xl mr-3">🇺🇳</span>
-                        <span class="text-sm font-semibold text-gray-700 font-medium">Participante do <strong>Pacto Global da ONU</strong></span>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-8 leading-tight">
+                    Chancela Internacional e <br>
+                    <span class="text-mbv-olive font-serif italic">Compromisso com a Agenda 2030</span>
+                </h2>
+
+                <div class="grid sm:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-2xl border-l-4 border-mbv-green hover-lift">
+                        <div class="flex justify-between items-start mb-4">
+                            <i data-lucide="globe-2" class="w-8 h-8 text-mbv-green"></i>
+                            <span class="text-[10px] text-gray-500 font-mono">UN GLOBAL COMPACT</span>
+                        </div>
+                        <h3 class="text-white font-bold mb-2">Pacto Global da ONU</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed">
+                            Membro ativo na maior iniciativa de sustentabilidade corporativa do mundo, alinhando estratégias aos princípios universais.
+                        </p>
                     </div>
-                    <div class="flex items-center p-4 bg-gray-50 rounded-xl border border-gray-100 hover:border-blue-200 transition-colors">
-                        <span class="text-2xl mr-3">🎯</span>
-                        <span class="text-sm font-semibold text-gray-700 font-medium">Signatário do <strong>Movimento ODS</strong></span>
+
+                    <div class="glass-panel p-6 rounded-2xl border-l-4 border-mbv-olive hover-lift">
+                        <div class="flex justify-between items-start mb-4">
+                            <i data-lucide="target" class="w-8 h-8 text-mbv-olive"></i>
+                            <span class="text-[10px] text-gray-500 font-mono">ODS COMPLIANCE</span>
+                        </div>
+                        <h3 class="text-white font-bold mb-2">Movimento ODS</h3>
+                        <p class="text-gray-400 text-xs leading-relaxed">
+                            Signatário oficial do Movimento ODS Santa Catarina, transformando metas globais em indicadores locais de impacto.
+                        </p>
                     </div>
                 </div>
-                <p class="mt-4 text-sm text-gray-500 italic">
-                    O MBV atua como motor tecnológico para o alcance das metas da <strong>Agenda 2030</strong>.
-                </p>
             </div>
 
-            <div class="hidden lg:block w-px h-32 bg-gray-200"></div>
+            <div class="lg:col-span-5 bg-mbv-surface/40 backdrop-blur-md rounded-3xl p-8 border border-white/5 shadow-2xl">
+                <h3 class="text-white font-bold text-lg mb-8 flex items-center">
+                    <i data-lucide="share-2" class="w-5 h-5 mr-3 text-mbv-green"></i>
+                    Integrações Institucionais
+                </h3>
+                
+                <div class="space-y-6">
+                    <div class="flex items-center group cursor-help">
+                        <div class="w-12 h-12 rounded-full bg-mbv-dark border border-mbv-green/30 flex items-center justify-center group-hover:border-mbv-green transition-all">
+                            <i data-lucide="landmark" class="w-5 h-5 text-mbv-green"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-white text-sm font-bold group-hover:text-mbv-green transition-colors">IBAMA & SiCAR</h4>
+                            <p class="text-gray-500 text-[11px]">Validação de higidez fundiária para CRVEs.</p>
+                        </div>
+                    </div>
 
-            <div class="flex-1 w-full">
-                <h2 class="text-sm font-bold text-mbv-green uppercase tracking-widest mb-6 text-center lg:text-left font-medium">Integrações Estratégicas</h2>
-                <div class="flex flex-wrap justify-center lg:justify-start gap-8 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-                    <div class="flex flex-col items-center group">
-                        <span class="text-xs font-bold text-gray-400 group-hover:text-mbv-dark transition-colors font-medium">IBAMA / SiCAR</span>
+                    <div class="flex items-center group cursor-help">
+                        <div class="w-12 h-12 rounded-full bg-mbv-dark border border-mbv-olive/30 flex items-center justify-center group-hover:border-mbv-olive transition-all">
+                            <i data-lucide="file-check" class="w-5 h-5 text-mbv-olive"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-white text-sm font-bold group-hover:text-mbv-olive transition-colors">INCRA / REDD+</h4>
+                            <p class="text-gray-500 text-[11px]">Geração de renda em projetos jurisdicionais.</p>
+                        </div>
                     </div>
-                    <div class="flex flex-col items-center group">
-                        <span class="text-xs font-bold text-gray-400 group-hover:text-mbv-dark transition-colors font-medium">INCRA / REDD+</span>
+
+                    <div class="flex items-center group cursor-help">
+                        <div class="w-12 h-12 rounded-full bg-mbv-dark border border-mbv-green/30 flex items-center justify-center group-hover:border-mbv-green transition-all">
+                            <i data-lucide="shield-check" class="w-5 h-5 text-mbv-green"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h4 class="text-white text-sm font-bold group-hover:text-mbv-green transition-colors">IMA-SC & FATMA</h4>
+                            <p class="text-gray-400 text-[11px]">Parcerias Público-Privadas em UC's.</p>
+                        </div>
                     </div>
-                    <div class="flex flex-col items-center group">
-                        <span class="text-xs font-bold text-gray-400 group-hover:text-mbv-dark transition-colors font-medium">IMA-SC / FATMA</span>
-                    </div>
-                    <div class="flex flex-col items-center group">
-                        <span class="text-xs font-bold text-gray-400 group-hover:text-mbv-dark transition-colors font-medium">MINISTÉRIO DA FAZENDA</span>
-                    </div>
+                </div>
+
+                <div class="mt-10 pt-6 border-t border-white/5">
+                    <p class="text-[10px] text-gray-500 uppercase tracking-tighter text-center">
+                        Segurança Jurídica fundamentada na <strong>Lei Federal nº 15.042/2024</strong>
+                    </p>
                 </div>
             </div>
 
         </div>
     </div>
 </section>
-
     <!-- Cenário Regulatório -->
     <section id="cenario" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
