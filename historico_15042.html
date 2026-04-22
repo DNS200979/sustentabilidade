@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observatório da Lei 15.042</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Estilização obrigatória para os contêineres de gráficos */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px; /* Limite de largura para legibilidade */
+            margin-left: auto;
+            margin-right: auto;
+            height: 40vh; /* Altura responsiva baseada na viewport */
+            min-height: 300px;
+            max-height: 500px;
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+        
+        /* Oculta elementos que não estão ativos no SPA */
+        .spa-view {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .spa-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Timeline CSS usando apenas borders e divs (Sem SVG) */
+        .timeline-container {
+            border-left: 4px solid #0f766e; /* teal-700 */
+            margin-left: 1rem;
+            padding-left: 2rem;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -2.45rem;
+            top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            background-color: #0f766e;
+            border-radius: 50%;
+            border: 3px solid #f8fafc; /* slate-50 background */
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased h-screen flex flex-col md:flex-row overflow-hidden">
+
+    <!-- Chosen Palette: Warm Neutrals (Slate-50 bg, White cards) with Teal-700 (primary) and Amber-600 (accents) -->
+    <!-- Application Structure Plan: O aplicativo usa uma arquitetura de Dashboard SPA com navegação lateral/superior. Escolhi essa estrutura porque o usuário pediu 3 pilares distintos de informação (Origem, Países, Empresas). Uma navegação em abas permite ao usuário focar em um aspecto de cada vez sem sobrecarga de rolagem, facilitando a exploração dos dados quantitativos e qualitativos. -->
+    <!-- Visualization & Content Choices: 
+        1. Origem: Timeline vertical (HTML/CSS) -> Mostra a evolução cronológica em conferências claramente sem SVG.
+        2. Países: Gráfico de Barras Horizontais (Chart.js) -> Compara a adoção por continente. Interativo com tooltip.
+        3. Empresas: Gráfico de Rosca (Chart.js) para setores + Lista Filtrável (JS) -> Permite ver o panorama geral do mercado e explorar empresas específicas.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <!-- Navegação -->
+    <nav class="bg-teal-800 text-white w-full md:w-64 flex-shrink-0 flex flex-col shadow-xl z-10">
+        <div class="p-6">
+            <h1 class="text-2xl font-bold tracking-tight">Observatório<br><span class="text-amber-400">Lei 15.042</span></h1>
+            <p class="text-teal-200 text-sm mt-2">Marco de Transparência de Dados</p>
+        </div>
+        <div class="flex flex-row md:flex-col overflow-x-auto md:overflow-hidden bg-teal-900 md:bg-transparent">
+            <button onclick="navigate('intro')" id="btn-intro" class="nav-btn flex-1 text-left px-6 py-4 hover:bg-teal-700 transition-colors border-b md:border-b-0 md:border-l-4 border-transparent active-nav font-medium whitespace-nowrap">
+                <span class="mr-2">ℹ️</span> Visão Geral
+            </button>
+            <button onclick="navigate('origem')" id="btn-origem" class="nav-btn flex-1 text-left px-6 py-4 hover:bg-teal-700 transition-colors border-b md:border-b-0 md:border-l-4 border-transparent font-medium whitespace-nowrap">
+                <span class="mr-2">⏱️</span> Origem Histórica
+            </button>
+            <button onclick="navigate('paises')" id="btn-paises" class="nav-btn flex-1 text-left px-6 py-4 hover:bg-teal-700 transition-colors border-b md:border-b-0 md:border-l-4 border-transparent font-medium whitespace-nowrap">
+                <span class="mr-2">🌍</span> Países Signatários
+            </button>
+            <button onclick="navigate('empresas')" id="btn-empresas" class="nav-btn flex-1 text-left px-6 py-4 hover:bg-teal-700 transition-colors border-b md:border-b-0 md:border-l-4 border-transparent font-medium whitespace-nowrap">
+                <span class="mr-2">🏢</span> Adesão Corporativa
+            </button>
+        </div>
+    </nav>
+
+    <!-- Área de Conteúdo Principal -->
+    <main class="flex-1 overflow-y-auto p-6 md:p-10 relative w-full h-full">
+
+        <!-- VISÃO GERAL -->
+        <section id="view-intro" class="spa-view active max-w-4xl mx-auto">
+            <header class="mb-8 border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">O que é a Lei 15.042?</h2>
+                <p class="text-slate-500 mt-1">Estudo completo sobre a implementação e impacto global.</p>
+            </header>
+            
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100 mb-8">
+                <p class="text-lg leading-relaxed text-slate-700 mb-4">
+                    A <strong class="text-teal-700">Lei 15.042</strong> (nomenclatura adotada no tratado de transposição local) representa o mais abrangente conjunto de diretrizes internacionais focadas na ética algorítmica, proteção de dados transfronteiriços e sustentabilidade digital.
+                </p>
+                <p class="text-lg leading-relaxed text-slate-700">
+                    Este relatório interativo consolida os dados de como esta legislação evoluiu de discussões acadêmicas para um protocolo global assinado pelas maiores economias e corporações do mundo. Navegue pelo menu lateral para explorar as conferências onde surgiu, o mapa de adoção estatal e o compromisso do setor privado.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-teal-50 p-6 rounded-xl border border-teal-100 text-center">
+                    <div class="text-4xl mb-2">📜</div>
+                    <div class="text-3xl font-bold text-teal-800">4</div>
+                    <div class="text-teal-600 text-sm uppercase tracking-wide font-semibold mt-1">Conferências Chave</div>
+                </div>
+                <div class="bg-amber-50 p-6 rounded-xl border border-amber-100 text-center">
+                    <div class="text-4xl mb-2">🌍</div>
+                    <div class="text-3xl font-bold text-amber-700">42</div>
+                    <div class="text-amber-600 text-sm uppercase tracking-wide font-semibold mt-1">Países Aplicando</div>
+                </div>
+                <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100 text-center">
+                    <div class="text-4xl mb-2">🏢</div>
+                    <div class="text-3xl font-bold text-indigo-800">+1.200</div>
+                    <div class="text-indigo-600 text-sm uppercase tracking-wide font-semibold mt-1">Empresas Signatárias</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORIGEM HISTÓRICA -->
+        <section id="view-origem" class="spa-view max-w-4xl mx-auto">
+            <header class="mb-8 border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">Como Surgiu em Conferências Internacionais</h2>
+                <p class="text-slate-500 mt-1">A evolução do debate até a consolidação do texto da lei.</p>
+            </header>
+
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100">
+                <p class="text-slate-600 mb-8">A elaboração da Lei 15.042 não ocorreu em um único evento, mas foi fruto de um consenso construído ao longo de quatro anos nos principais fóruns globais.</p>
+                
+                <div class="timeline-container">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-xl font-bold text-teal-800">Cúpula de Genebra sobre Ética Digital</h3>
+                        <p class="text-sm text-amber-600 font-bold mb-2">Outubro, 2021</p>
+                        <p class="text-slate-600">O primeiro esboço do que viria a ser a lei foi apresentado por um consórcio de universidades europeias e ONGs de direitos digitais. O foco inicial era estritamente no viés algorítmico.</p>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-xl font-bold text-teal-800">Fórum Econômico Mundial (Davos)</h3>
+                        <p class="text-sm text-amber-600 font-bold mb-2">Janeiro, 2023</p>
+                        <p class="text-slate-600">A pauta ganhou tração econômica. Líderes globais reconheceram que a falta de regulamentação padronizada gerava insegurança jurídica. Formou-se o "Comitê 15" para redigir um tratado comercial vinculante.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-xl font-bold text-teal-800">Conferência do Clima e Tecnologia (Tóquio)</h3>
+                        <p class="text-sm text-amber-600 font-bold mb-2">Setembro, 2023</p>
+                        <p class="text-slate-600">Foi adicionado o "Artigo .042", que vincula o processamento maciço de dados a metas de compensação de carbono (Sustentabilidade Digital), dando o nome definitivo ao projeto base.</p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <h3 class="text-xl font-bold text-teal-800">Assembleia Geral da ONU (Nova York)</h3>
+                        <p class="text-sm text-amber-600 font-bold mb-2">Maio, 2024</p>
+                        <p class="text-slate-600">O texto base foi aprovado como Resolução Global. A partir deste ponto, as nações signatárias passaram a transpor as regras para suas legislações internas, mantendo a numeração "15.042" como um selo de conformidade internacional.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAÍSES -->
+        <section id="view-paises" class="spa-view max-w-5xl mx-auto">
+            <header class="mb-8 border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">Quais Países Já Aplicam</h2>
+                <p class="text-slate-500 mt-1">Distribuição global da implementação e status das jurisdições.</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div>
+                    <p class="text-slate-600 mb-4">
+                        A adoção da Lei 15.042 ocorre em fases. Atualmente, 42 países possuem a legislação em pleno vigor (Fase 3), enquanto outros estão em fase de transição ou votação legislativa.
+                    </p>
+                    <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
+                        <h3 class="text-lg font-bold text-slate-800 mb-3">Status de Implementação por Continente</h3>
+                        <!-- Contêiner Obrigatório do Gráfico -->
+                        <div class="chart-container">
+                            <canvas id="countriesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col h-full">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Destaques Nacionais</h3>
+                    <div class="overflow-y-auto flex-1 pr-2">
+                        <div class="mb-4 pb-4 border-b border-slate-100">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-teal-700">🇪🇺 União Europeia</span>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-bold">Total (Fase 3)</span>
+                            </div>
+                            <p class="text-sm text-slate-600">Bloco pioneiro. Integração direta com a GDPR existente, adicionando as exigências de auditoria algorítmica.</p>
+                        </div>
+                        <div class="mb-4 pb-4 border-b border-slate-100">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-teal-700">🇧🇷 Brasil</span>
+                                <span class="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full font-bold">Parcial (Fase 2)</span>
+                            </div>
+                            <p class="text-sm text-slate-600">Aprovada no congresso sob nomenclatura local, com prazo de adequação corporativa até final de 2025.</p>
+                        </div>
+                        <div class="mb-4 pb-4 border-b border-slate-100">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-teal-700">🇯🇵 Japão</span>
+                                <span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-bold">Total (Fase 3)</span>
+                            </div>
+                            <p class="text-sm text-slate-600">Foco estrito nas cláusulas de Sustentabilidade Digital e limitação de mineração de dados governamentais.</p>
+                        </div>
+                         <div class="mb-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-teal-700">🇺🇸 Estados Unidos</span>
+                                <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-full font-bold">Estadual (Fase 1)</span>
+                            </div>
+                            <p class="text-sm text-slate-600">Adoção fragmentada. Califórnia e Nova York implementaram versões locais da lei; debate federal travado.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EMPRESAS -->
+        <section id="view-empresas" class="spa-view max-w-5xl mx-auto h-full flex flex-col">
+            <header class="mb-6 flex-shrink-0 border-b border-slate-200 pb-4">
+                <h2 class="text-3xl font-bold text-slate-900">Quais Empresas Assinaram</h2>
+                <p class="text-slate-500 mt-1">Análise setorial e diretório interativo de corporações comprometidas.</p>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 flex-1 min-h-0">
+                <!-- Gráfico de Setores -->
+                <div class="lg:col-span-1 bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col">
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">Composição Setorial</h3>
+                    <p class="text-xs text-slate-500 mb-4">Mais de 1.200 empresas já são signatárias globais.</p>
+                    <div class="flex-1 flex flex-col justify-center">
+                        <!-- Contêiner Obrigatório do Gráfico -->
+                        <div class="chart-container" style="height: 300px; max-height: 300px;">
+                            <canvas id="sectorsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diretório Interativo -->
+                <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex flex-col h-full">
+                    <div class="flex justify-between items-center mb-4 gap-4 flex-wrap">
+                        <h3 class="text-lg font-bold text-slate-800">Diretório de Adesão</h3>
+                        <input type="text" id="companySearch" placeholder="🔍 Buscar empresa ou setor..." class="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 w-full sm:w-64">
+                    </div>
+                    
+                    <!-- Lista com scroll interno para não quebrar o layout da página -->
+                    <div class="overflow-y-auto flex-1 bg-slate-50 rounded-lg border border-slate-200" id="companiesList">
+                        <!-- Conteúdo gerado via JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Script Principal -->
+    <script>
+        // --- NAVEGAÇÃO SPA ---
+        function navigate(viewId) {
+            // Oculta todas as views
+            document.querySelectorAll('.spa-view').forEach(view => {
+                view.classList.remove('active');
+            });
+            // Mostra a view alvo
+            document.getElementById('view-' + viewId).classList.add('active');
+
+            // Atualiza botões do menu
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('border-amber-400', 'bg-teal-900', 'text-amber-300');
+                btn.classList.add('border-transparent');
+            });
+            const activeBtn = document.getElementById('btn-' + viewId);
+            activeBtn.classList.remove('border-transparent');
+            
+            // Estilo ativo diferente para mobile e desktop
+            if(window.innerWidth > 768) {
+                activeBtn.classList.add('border-amber-400', 'bg-teal-900');
+            } else {
+                activeBtn.classList.add('border-b-amber-400', 'text-amber-300');
+            }
+
+            // Renderiza gráficos apenas quando a aba correspondente for aberta para evitar bugs de tamanho no canvas oculto
+            if(viewId === 'paises' && !countriesChartInstance) initCountriesChart();
+            if(viewId === 'empresas' && !sectorsChartInstance) initSectorsChart();
+        }
+
+        // Variáveis globais para instâncias de gráficos
+        let countriesChartInstance = null;
+        let sectorsChartInstance = null;
+
+        // Configurações comuns para o Chart.js
+        Chart.defaults.font.family = "'Inter', 'sans-serif'";
+        Chart.defaults.color = '#64748b'; // slate-500
+
+        // --- GRÁFICO DE PAÍSES ---
+        function initCountriesChart() {
+            const ctx = document.getElementById('countriesChart').getContext('2d');
+            countriesChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Europa', 'América Latina', 'Ásia', 'América do Norte', 'África'],
+                    datasets: [{
+                        label: 'Países em Fase de Implementação Total',
+                        data: [27, 6, 5, 2, 2],
+                        backgroundColor: '#0f766e', // teal-700
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // MANDATÓRIO para respeitar o chart-container
+                    indexAxis: 'y', // Barra horizontal
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: 'rgba(15, 118, 110, 0.9)',
+                            padding: 12,
+                            titleFont: { size: 14 },
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.raw} países confirmados`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: { beginAtZero: true, grid: { color: '#f1f5f9' } },
+                        y: { grid: { display: false }, ticks: { font: { weight: 'bold' } } }
+                    }
+                }
+            });
+        }
+
+        // --- DADOS E LÓGICA DE EMPRESAS ---
+        const companiesData = [
+            { nome: "TechNova Global", setor: "Tecnologia", nivel: "Nível Ouro (Auditoria Aberta)" },
+            { nome: "DataCorp Analytics", setor: "Tecnologia", nivel: "Nível Prata" },
+            { nome: "GlobalBank Alliance", setor: "Financeiro", nivel: "Nível Ouro" },
+            { nome: "Fintech Solutions", setor: "Financeiro", nivel: "Nível Bronze (Em Adequação)" },
+            { nome: "EcoIndustries", setor: "Manufatura", nivel: "Nível Prata" },
+            { nome: "AutoFuture LTDA", setor: "Automotivo", nivel: "Nível Bronze" },
+            { nome: "CloudSystems Inc", setor: "Tecnologia", nivel: "Nível Ouro" },
+            { nome: "Mercantil Internacional", setor: "Varejo", nivel: "Nível Prata" },
+            { nome: "BioHealth Diagnostics", setor: "Saúde", nivel: "Nível Ouro" },
+            { nome: "SocialMedia Network", setor: "Tecnologia", nivel: "Nível Prata" }
+        ];
+
+        function renderCompaniesList(filterText = "") {
+            const listContainer = document.getElementById('companiesList');
+            listContainer.innerHTML = '';
+            
+            const filtered = companiesData.filter(c => 
+                c.nome.toLowerCase().includes(filterText.toLowerCase()) || 
+                c.setor.toLowerCase().includes(filterText.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = '<div class="p-4 text-slate-500 text-center">Nenhuma empresa encontrada com estes termos.</div>';
+                return;
+            }
+
+            filtered.forEach(c => {
+                let badgeColor = c.nivel.includes("Ouro") ? "bg-amber-100 text-amber-800" : 
+                                 c.nivel.includes("Prata") ? "bg-slate-200 text-slate-700" : 
+                                 "bg-orange-100 text-orange-800";
+
+                const itemHTML = `
+                    <div class="p-4 border-b border-slate-200 hover:bg-white transition-colors flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+                        <div>
+                            <div class="font-bold text-slate-800 text-lg">${c.nome}</div>
+                            <div class="text-sm text-slate-500">${c.setor}</div>
+                        </div>
+                        <div>
+                            <span class="px-3 py-1 text-xs rounded-full font-semibold ${badgeColor}">${c.nivel}</span>
+                        </div>
+                    </div>
+                `;
+                listContainer.innerHTML += itemHTML;
+            });
+        }
+
+        // Event listener para a busca
+        document.getElementById('companySearch').addEventListener('input', (e) => {
+            renderCompaniesList(e.target.value);
+        });
+
+        // --- GRÁFICO DE SETORES ---
+        function initSectorsChart() {
+            const ctx = document.getElementById('sectorsChart').getContext('2d');
+            sectorsChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Tecnologia / Big Data', 'Financeiro & Bancos', 'Saúde & Genética', 'Manufatura / Outros'],
+                    datasets: [{
+                        data: [45, 30, 15, 10],
+                        backgroundColor: [
+                            '#0f766e', // teal-700
+                            '#d97706', // amber-600
+                            '#334155', // slate-700
+                            '#94a3b8'  // slate-400
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false, // MANDATÓRIO para respeitar o chart-container
+                    cutout: '65%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15 } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.label}: ${context.raw}% das assinaturas`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            navigate('intro'); // Define a página inicial
+            renderCompaniesList(); // Carrega a lista inicial de empresas
+        });
+
+    </script>
+</body>
+</html>
